@@ -1,0 +1,44 @@
+.div{
+  color: white;
+  text-align: center;
+  flex: content;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 1em
+}
+
+.div input {
+  border-radius: 0.4em;
+  text-align: center;
+  width: 4em;
+  margin: 1em;
+  color: black;
+}
+
+.div textarea {
+  border-radius: 0.4em;
+  height: 5em;
+  width: 20em;
+  text-align: center;
+  color: black;
+  padding: 3em;
+}
+
+.div button {
+  border-radius: 0.2em;
+  margin: 0.5em;
+  border: 0; 
+  cursor: pointer;
+  height: 3em;
+  width: 8em;
+}
+
+.div button :hover{
+  color: white;
+  background-color: black;
+}
+
+.connect {
+  margin-top: 7em;
+}
+

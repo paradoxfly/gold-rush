@@ -1,0 +1,16 @@
+.nav{
+  flex: content;
+  background-color: slategray;
+  padding-top: .3em;
+  padding-bottom: .3em;
+  text-align: center;
+  /* margin-left: 5%;
+  margin-right: 5%; */
+  border-bottom-right-radius: 1em;
+  border-bottom-left-radius: 1em;
+}
+
+.nav h1{
+  color: gold;
+  font-family: fantasy;
+}

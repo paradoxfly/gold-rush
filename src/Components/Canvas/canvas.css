@@ -1,0 +1,39 @@
+.canvas{
+	float: center;
+	background-color: black;
+	top: 20px;
+	width: 784px;
+	height: 441px
+}
+
+@media (max-width: 860px) {
+	.canvas{
+		float: center;
+		background-color: black;
+		top: 10px;
+		width: 672px;
+		height: 378px
+	}
+}
+
+@media (max-width: 768px) {
+	.canvas{
+		float: center;
+		background-color: black;
+		top: 5px;
+		width: 560px;
+		height: 315px
+	}
+}
+
+@media (max-width: 576px) {
+	.canvas{
+		float: center;
+		background-color: black;
+		top: 3px;
+		width: 336px;
+		height: 189px
+	}
+}
+
+
