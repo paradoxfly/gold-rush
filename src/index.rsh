@@ -48,6 +48,7 @@ export const main = Reach.App(() => {
     ...Player,
     wager: UInt,
     deadline: UInt,
+    informAcceptedWager: Fun([], Null)
   });
   const Bob = Participant('Bob', {
     ...Player,
@@ -81,6 +82,8 @@ export const main = Reach.App(() => {
   Bob.pay(wager)
     .timeout(relativeTime(deadline), () => closeTo(Alice, informTimeout));
   
+  Alice.interact.informAcceptedWager();
+
   //While loop that terminates after three iterations
   var [ stage, totalTimeAlice, totalTimeBob ] = [0, 0, 0];
   invariant (balance() == 2 * wager);

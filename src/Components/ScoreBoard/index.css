@@ -1,0 +1,14 @@
+table{
+  padding: 0;
+  background-color: dimgray;
+  border-radius: 0.5em;
+  text-align: right;
+}
+table th{
+  width: 5em;
+  border: 1;
+}
+
+.time{
+  float: right;
+}

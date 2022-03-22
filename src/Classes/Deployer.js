@@ -8,13 +8,10 @@ export default class Deployer extends Participant {
     this.deadline = deadline 
   }
 
-  // async deploy() {
-  //   const ctc = this.props.acc.contract(backend);
-  //   this.setState({view: 'Deploying', ctc});
-  //   this.wager = reach.parseCurrency(this.state.wager); // UInt
-  //   this.deadline = {ETH: 10, ALGO: 100, CFX: 1000}[reach.connector]; // UInt
-  //   backend.Alice(ctc, this);
-  //   const ctcInfoStr = JSON.stringify(await ctc.getInfo(), null, 2);
-  //   this.setState({view: 'WaitingForAttacher', ctcInfoStr});
-  // }
+  informAcceptedWager(){
+    this.utils.setView(Views.ATTACH_SUCCESS)
+    setTimeout(() => {
+      this.utils.setView(Views.AWAITING_TURN)
+    }, 3000);
+  }
 }

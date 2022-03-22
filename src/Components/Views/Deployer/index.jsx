@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Views } from '../../../utils/constants';
 import Deployer from '../../../Classes/Deployer';
 import Canvas from '../../Canvas/Canvas';
-import Timeout from './Timeout';
+import Timeout from '../Common/Timeout';
 import { useSelector } from 'react-redux';
 import { selectAction } from '../../../redux/slices/action.slice';
 import '../index.css'
@@ -11,9 +11,19 @@ export default function Deploy(props){
   const { utils, reach, stages, dispatch, defaultWager } = props
   const [ view, setView ] = useState(Views.PLAY_TURN)
   const [ wager, setWager ] = useState(defaultWager)
+  const [ time, setTime ] = useState([])
+  const [ opponentTime, setOpponentTime ] = useState([])
   const action = useSelector(selectAction).action
   const setFunctions = {
     setView: (x) => { setView(x) },
+    setTime: (x) => { 
+      const copy = [...time]
+      setTime(copy.push(x))
+    },
+    setOpponentTime: (x) => { 
+      const copy = [...opponentTime]
+      setOpponentTime(copy.push(x))
+    }
   }
 
   const Alice = new Deployer(reach, setFunctions, stages, dispatch)
@@ -41,13 +51,25 @@ export default function Deploy(props){
 
       {
         view === Views.WAITING_FOR_ATTACHER ?
-        <h3>Waiting for attacher</h3> 
+        <h2>Waiting for attacher</h2> 
         : null
       }
 
-{
+      {
+        view === Views.ATTACH_SUCCESS ?
+        <h2>Opponent Successfully attached to contract and paid wager</h2>
+        : null
+      }
+
+      {
         view === Views.TIMEOUT ?
-        <Timeout />
+        <Timeout>Timeout!! Took too long for Opponent to accept wager</Timeout>
+        : null
+      }
+
+      {
+        view === Views.AWAITING_TURN ?
+        <h2>Opponent is playing his turn.. This might take a few minutes.</h2>
         : null
       }
 
@@ -56,6 +78,8 @@ export default function Deploy(props){
         <Canvas action = { action }/> 
         : null
       }
+
+      
     </div>
   )
 }
