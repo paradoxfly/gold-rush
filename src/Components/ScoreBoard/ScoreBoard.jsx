@@ -1,67 +1,50 @@
 import React from 'react';
 import './index.css';
+import { selectScore } from '../../redux/slices/scores.slice';
+import { useSelector } from 'react-redux';
+import { selectTime } from '../../redux/slices/time.slice';
 
-export default function ScoreBoard(props){
-
+export default function ScoreBoard(){
+  const { you, them } = useSelector( selectScore )
+  const time =  useSelector( selectTime)
   return(
-    <table>
-      <tr>
-        <th>
-          <h2>
+    <div className='wrapper'>
+      <div className='header'>
+          <h4>
             SCOREBOARD
-          </h2>
-        </th>
-        <th className='time'>
-          <p>Time</p>
-          <span>time</span>
-        </th>
-      </tr>
+          </h4>
+      </div>
 
-      <tr>
-        <th>
-          <p>Name</p>
-        </th>
-        <th>
-          <p>Round 1</p>
-        </th>
-        <th>
-          <p>Round 2</p>
-        </th>
-        <th>
-          <p>Round 3</p>
-        </th>
-      </tr>
+      <div className='time'>
+        {time ? `${time} secs` : ''}
+      </div>
 
-      <tr>
-        <th>
-          <p>You</p>
-        </th>
-        <th>
-          <p>time 1</p>
-        </th>
-        <th>
-          <p>time 2</p>
-        </th>
-        <th>
-          <p>time 3</p>
-        </th>
-      </tr>
+      <table className='scores'>
+        <tbody>
+          <tr>
+            <th></th>
+            <th>Round 1</th>
+            <th>Round 2 </th>
+            <th>Round 3</th>
+          </tr>
 
-      <tr>
-        <th>
-          <p>Your Opponent</p>
-        </th>
-        <th>
-          <p>time 1</p>
-        </th>
-        <th>
-          <p>time 2</p>
-        </th>
-        <th>
-          <p>time 3</p>
-        </th>
-      </tr>
+          <tr>
+            <th>You</th>
+            <th>{you.round1 ? you.round1 : '-'}</th>
+            <th>{you.round2 ? you.round2 : '-'}</th>
+            <th>{you.round3 ? you.round3 : '-'}</th>
+          </tr>
 
-    </table>
+          <tr>
+            <th>Them</th>
+            <th>{them.round1 ? them.round1 : '-'}</th>
+            <th>{them.round1 ? them.round2 : '-'}</th>
+            <th>{them.round1 ? them.round3 : '-'}</th>
+          </tr>
+        </tbody>
+
+      </table>
+      
+    </div>
   )
 }

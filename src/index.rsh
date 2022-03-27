@@ -48,7 +48,8 @@ export const main = Reach.App(() => {
     ...Player,
     wager: UInt,
     deadline: UInt,
-    informAcceptedWager: Fun([], Null)
+    informAcceptedWager: Fun([], Null),
+    informWaitingForAttacher: Fun([], Null)
   });
   const Bob = Participant('Bob', {
     ...Player,
@@ -74,6 +75,8 @@ export const main = Reach.App(() => {
   Alice.publish(wager, deadline)
     .pay(wager);
   commit();
+
+  Alice.interact.informWaitingForAttacher();
 
   //Bob on joining the contract accepts wager before deadline.
   Bob.only(() => {

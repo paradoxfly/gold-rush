@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { selectTime } from '../../redux/slices/time.slice'
 import { Constants } from '../../utils/constants'
 import './canvas.css'
 
@@ -49,7 +47,6 @@ export default function Canvas ({action}){
   
   return (
     <div>
-      <p>Time: {useSelector(selectTime).time}</p>
       <canvas ref={canvasRef}  className='canvas' width='1120px' height='630px'/>
     </div>
   )

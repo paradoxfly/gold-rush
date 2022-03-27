@@ -8,7 +8,10 @@ export default class Attacher extends Participant{
     this.utils.setWager(wager)
     this.utils.setView(Views.ACCEPT_TERMS)
     return await new Promise(resolve => {
-      this.utils.setResolver({resolve})
+      this.utils.setResolver({ resolve: () => {
+        this.utils.setView(Views.ATTACHING)
+        resolve();
+      }})
     });
   }
 }

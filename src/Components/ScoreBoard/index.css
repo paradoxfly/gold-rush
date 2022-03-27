@@ -1,14 +1,31 @@
 table{
+  flex: 100%;
   padding: 0;
-  background-color: dimgray;
-  border-radius: 0.5em;
-  text-align: right;
+  background-color: transparent;
+  text-align: center;
+  border: 1px solid rgb(0,0,0,0.3);
 }
-table th{
+th{
   width: 5em;
-  border: 1;
+  /* border: 1px solid; */
+}
+.wrapper{
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 30%;
+  background-color: darkslategray;
+}
+.header{
+  flex: 50%;
+  font-family: fantasy;
 }
 
 .time{
+  flex: 50%;
   float: right;
 }

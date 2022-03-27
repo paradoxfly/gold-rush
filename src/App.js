@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Views } from './utils/constants';
 import './App.css';
 
 //Components or Views
 import TopNav from './Components/TopNav/TopNav';
-import Canvas from './Components/Canvas/Canvas';
 import ConnectAccount from './Components/Views/ConnectAccount';
 import FundAccount from './Components/Views/FundAccount';
 import DeployerOrAttacher from './Components/Views/DeployerOrAttacher';
@@ -12,20 +11,12 @@ import Attach from './Components/Views/Attacher';
 import Deploy from './Components/Views/Deployer';
 
 //Redux functions
-import { useSelector, useDispatch } from 'react-redux';
-import { selectAction } from './redux/slices/action.slice';
-import { selectTime } from './redux/slices/time.slice';
-
-//Game stages and game function
-import StageOne from './Stages/StageOne';
-import StageTwo from './Stages/StageTwo';
-import game from './utils/game';
+import {  useDispatch } from 'react-redux';
 
 //Reach
 import * as backend from './build/index.main.mjs'
 import {loadStdlib} from '@reach-sh/stdlib';
 import MyAlgoConnect from '@reach-sh/stdlib/ALGO_MyAlgoConnect'
-import { render } from '@testing-library/react';
 
 const reach = loadStdlib('ALGO');
 reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
@@ -33,10 +24,9 @@ const { standardUnit } = reach;
 const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
 
 function App(){
-  const [ view, setView ] = useState(Views.DEPLOYER_OR_ATTACHER)
+  const [ view, setView ] = useState(Views.CONNECT_ACCOUNT)
   const [ account, setAccount ] = useState({})
   const [ balance, setBalance ] = useState(0)
-  const [time, setTime] = useState(0)
 
   const utils = {
 
@@ -84,26 +74,12 @@ function App(){
     }
   }
 
-  useEffect(() => {
-    // utils.connectAccount()
-  }, [])
 
   const dispatch = useDispatch()
-  const stages = []
-  const stageOne = new StageOne(dispatch)
-  const stageTwo = new StageTwo(dispatch)
-  stages.push(StageOne)
-  stages.push(StageTwo)
-  // async function onClick(event){
-  //   const timeTaken = await game(dispatch, stageTwo, stageTwo.options)
-  //   setTime(timeTaken)
-  // }
 
   return (
     <div className="App">
       <TopNav />
-      {/* <Canvas action={ useSelector(selectAction).action }/>
-      <button onClick = {onClick} > Click Me.. time manual: {time}.. time state: {useSelector(selectTime).time}</button> */}
 
       {
         view === Views.CONNECT_ACCOUNT ? 
@@ -125,13 +101,13 @@ function App(){
 
       {
         view === Views.DEPLOY ? 
-        <Deploy reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} stages={stages} dispatch={dispatch} defaultWager={defaults.defaultWager}/>
+        <Deploy reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} dispatch={dispatch} defaultWager={defaults.defaultWager}/>
         : null
       }
 
       {
         view === Views.ATTACH ? 
-        <Attach reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} stages={stages} dispatch={dispatch}/>
+        <Attach reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} dispatch={dispatch}/>
         : null
       }     
 

@@ -14,4 +14,8 @@ export default class Deployer extends Participant {
       this.utils.setView(Views.AWAITING_TURN)
     }, 3000);
   }
+
+  informWaitingForAttacher(){
+    this.utils.setView(Views.WAITING_FOR_ATTACHER)
+  }
 }

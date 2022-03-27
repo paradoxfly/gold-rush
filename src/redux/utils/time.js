@@ -7,3 +7,7 @@ export function incrementTimeByOne(dispatch){
 export function setTimeToValue(dispatch, payload){
   dispatch( setTime( payload) )
 }
+
+export function resetTime(dispatch){
+  dispatch( setTime( 0 ))
+}

@@ -2,7 +2,7 @@ import Player from '../Classes/Player'
 import Lava from '../Classes/Lava'
 import Gold from '../Classes/Gold'
 import { checkOverlap, overlap } from './surfaceFunctions'
-import { setTimeToValue, incrementTimeByOne } from '../redux/utils/time'
+import { incrementTimeByOne, resetTime } from '../redux/utils/time'
 
 // const options = {
 //   player: { x: '', y: '' },
@@ -14,7 +14,8 @@ import { setTimeToValue, incrementTimeByOne } from '../redux/utils/time'
 export default function game(dispatch, stage, options){
   return new Promise((resolve, reject) => {
 
-    setTimeToValue(dispatch, 0)
+    console.log('got here')
+    resetTime(dispatch)
     let time = 0
 
     let timeIntervalID = null
@@ -136,7 +137,7 @@ export default function game(dispatch, stage, options){
         goldTouch()
         lavaBurn()
         checkGoldAcquired()
-      }, 50);
+      }, 10);
     }
   })
   
