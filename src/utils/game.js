@@ -114,6 +114,7 @@ export default function game(dispatch, stage, options){
         console.log('you win')
         console.log(`It took you ${time} seconds`)
         clearIntervals()
+        window.removeEventListener('keydown', _player.controller)
         resolve(time)
       }
     }

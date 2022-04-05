@@ -1,4 +1,5 @@
 import { updateScoreBoard } from "../actions/score.action";
+import { setScore } from "../slices/scores.slice"
 
 /**
  * 
@@ -9,6 +10,6 @@ import { updateScoreBoard } from "../actions/score.action";
  * @returns null
  */
 export function updateScore(who, round, score, dispatch){
-  const roundString = 'round' + round;
-  dispatch( updateScoreBoard(who, roundString, score) );
+  const { payload } = updateScoreBoard(who, round, score) 
+  dispatch( setScore( payload ) );
 }

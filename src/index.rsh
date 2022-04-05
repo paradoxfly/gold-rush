@@ -25,14 +25,23 @@ const winner = (totalTimeAlice, totalTimeBob) => {
  */
 const payWinner = (outcome, wager, Alice, Bob) => {
   if (outcome == DRAW) {
+    each([Alice, Bob], () => {
+      interact.showWinner(Bytes(16).pad("draw"));
+    });
     transfer(wager).to(Alice);
     transfer(wager).to(Bob);
   }
   else if(outcome == A_WINS) {
     transfer(2*wager).to(Alice);
+    each([Alice, Bob], () => {
+      interact.showWinner(Bytes(16).pad("alice"));
+    });
   }
   else {
     transfer(2*wager).to(Bob);
+    each([Alice, Bob], () => {
+      interact.showWinner(Bytes(16).pad("bob"));
+    });
   }
 }
 
@@ -41,6 +50,7 @@ const Player = {
   getTime: Fun([], UInt),
   opponentReplay: Fun([UInt], Null),
   informTimeout: Fun([], Null),
+  showWinner: Fun([Bytes(16)], Null)
 }
 
 export const main = Reach.App(() => {
@@ -102,8 +112,8 @@ export const main = Reach.App(() => {
 
     //Alice plays her turn of the game stage and publishes how long it took
     Alice.only(() => {
-      const timeAlice = declassify(interact.getTime());
       interact.opponentReplay(timeBob);
+      const timeAlice = declassify(interact.getTime());
     });
     Alice.publish(timeAlice);
     commit();
@@ -118,6 +128,7 @@ export const main = Reach.App(() => {
   }
 
   const outcome = winner(totalTimeAlice, totalTimeBob);
+
   payWinner(outcome, wager, Alice, Bob);
   
   commit();

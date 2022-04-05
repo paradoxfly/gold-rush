@@ -4,15 +4,17 @@ import Deployer from '../../../Classes/Deployer';
 import Canvas from '../../Canvas/Canvas';
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
 import Timeout from '../Common/Timeout';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectAction } from '../../../redux/slices/action.slice';
 import '../index.css'
 import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
+import StageThree from '../../../Stages/StageThree';
 
 export default function Deploy(props){
-  const { utils, reach, dispatch, defaultWager } = props
+  const dispatch = useDispatch()
+  const { utils, reach, defaultWager } = props
   const [ view, setView ] = useState(Views.DEPLOY)
   const [ ctcInfo, setCtcInfo ] = useState({})
   const [ wager, setWager ] = useState(defaultWager)
@@ -26,7 +28,8 @@ export default function Deploy(props){
 
   const stage1 = new StageOne(dispatch)
   const stage2 = new StageTwo(dispatch)
-  const stages = [stage1, stage2]
+  const stage3 = new StageThree(dispatch)
+  const stages = [ stage1, stage2, stage3 ]
 
   const setFunctions = {
     setView: (x) => { setView(x) },
@@ -43,8 +46,7 @@ export default function Deploy(props){
     setPlay: (x) => { setPlay(x) }
   }
 
-  const Alice = new Deployer(reach, setFunctions, stages, dispatch)
-  console.log(view)
+  const Alice = new Deployer(reach, setFunctions, dispatch)
   return(
     <div className='div'>
       {
@@ -129,6 +131,11 @@ export default function Deploy(props){
         </>        
         : null
       }
+
+      {/* <button onClick={async () => {
+        const time = await game(dispatch, stage2, stage2.options)
+        console.log(time)
+      }}>Click me</button> */}
 
       
     </div>

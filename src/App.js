@@ -10,13 +10,10 @@ import DeployerOrAttacher from './Components/Views/DeployerOrAttacher';
 import Attach from './Components/Views/Attacher';
 import Deploy from './Components/Views/Deployer';
 
-//Redux functions
-import {  useDispatch } from 'react-redux';
-
 //Reach
 import * as backend from './build/index.main.mjs'
 import {loadStdlib} from '@reach-sh/stdlib';
-import MyAlgoConnect from '@reach-sh/stdlib/ALGO_MyAlgoConnect'
+import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
 
 const reach = loadStdlib('ALGO');
 reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
@@ -74,9 +71,6 @@ function App(){
     }
   }
 
-
-  const dispatch = useDispatch()
-
   return (
     <div className="App">
       <TopNav />
@@ -101,13 +95,13 @@ function App(){
 
       {
         view === Views.DEPLOY ? 
-        <Deploy reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} dispatch={dispatch} defaultWager={defaults.defaultWager}/>
+        <Deploy reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} defaultWager={defaults.defaultWager}/>
         : null
       }
 
       {
         view === Views.ATTACH ? 
-        <Attach reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} dispatch={dispatch}/>
+        <Attach reach={reach} balance={balance} standardUnit={defaults.standardUnit} utils={utils} />
         : null
       }     
 

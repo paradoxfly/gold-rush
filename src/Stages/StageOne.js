@@ -28,7 +28,7 @@ export default class StageOne extends StageTwo{					//Contains information about
 		this.lavaContent = [50, 45, 15, 7, "red"]
 		this.options = {
 			player: { x: 108, y: 31},
-			lava: [ { x: 13, y: 1 }, { x: 27, y: 1 }, {x: 57, y: 1, distance: 42}, {x: 93, y: 7 }],
+			lava: [ { x: 13, y: 1 }, {x: 57, y: 1, distance: 42}, {x: 93, y: 7 }],
 			gold: [ { x: 11, y: 20 }, {x: 16, y: 20} ]
 		}
 	}

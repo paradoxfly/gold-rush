@@ -20,5 +20,6 @@ export const Views = {
   AWAITING_TURN: 'AwaitingTurn',
   AWAITING_RESULT: 'AwaitingResult',
   OPPONENT_REPLAY: 'OpponentReplay',
-  PLAY_TURN: 'PlayTurn'
+  PLAY_TURN: 'PlayTurn',
+  SHOW_WINNER: 'ShowWinner'
 }

@@ -23,18 +23,11 @@ export default class StageTwo{					//Contains information about Stage One
 			[102, 37, 11, 5, "white"],	//first beam from right
 			[6, 25, 18, 4, "white"],	//suspended platform
 			
-			[86, 1, 3, 7, "white"],	//overhead lava container left prop
-			[89, 4, 3, 7, "white"],	//left funnel
-			[99, 1, 3, 7, "white"],	//right prop
-			[96, 4, 3, 7, "white"],	//right funnel
-
-			[89, 1, 10, 3, "red"],		//harmless overhead lava
-			[92, 4, 4, 3, "red"]	//harmless overhead lava	
 		]
 		this.lavaContent = [50, 45, 15, 7, "red"]
 		this.options = {
 			player: { x: 108, y: 31},
-			lava: [ { x: 13, y: 13 }, { x: 27, y: 2 }, {x: 57, y: 1, distance: 42}, {x: 93, y: 7 }],
+			lava: [ { x: 13, y: 13 }, { x: 27, y: 2 }, {x: 57, y: 1, distance: 42}],
 			gold: [ { x: 11, y: 20 }, {x: 16, y: 20}, {x: 5, y: 5 } ]
 		}
 	}

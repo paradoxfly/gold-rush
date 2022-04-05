@@ -36,7 +36,7 @@ if [ -n "$DOCKER_HOST" ] && ! (echo "$DOCKER_HOST" | grep -q '^unix:'); then
 fi
 
 IMG='reachsh/reach-cli:latest'
-TMP=$(mktemp -d "/home/paradoxfly/reach/temp/reach.$(date -u '+%Y-%m-%dT%H-%M-%SZ')-XXXX")
+TMP=$(mkdir -p /tmp/reach/cli; mktemp -d "/tmp/reach/cli/$(date -u '+%Y-%m-%dT%H-%M-%SZ')-XXXX")
 CNF="${XDG_CONFIG_HOME:-$HOME/.config}/reach"; CNF="$(mkdir -p "$CNF" && cd "$CNF" && pwd)"
 export TMP
 

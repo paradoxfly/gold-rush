@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAction } from '../../../redux/slices/action.slice';
 import { Views } from '../../../utils/constants';
 import Canvas from '../../Canvas/Canvas';
@@ -11,10 +11,12 @@ import '../index.css'
 import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
+import StageThree from '../../../Stages/StageThree';
 
 
 export default function Attach(props){
-  const { utils, reach, standardUnit, dispatch } = props
+  const dispatch = useDispatch()
+  const { utils, reach, standardUnit } = props
   const action = useSelector(selectAction).action
   const [view, setView] = useState(Views.ATTACH)
   const [wager, setWager ] = useState(0)
@@ -27,7 +29,8 @@ export default function Attach(props){
 
   const stage1 = new StageOne(dispatch)
   const stage2 = new StageTwo(dispatch)
-  const stages = [stage1, stage2]
+  const stage3 = new StageThree(dispatch)
+  const stages = [stage1, stage2, stage3]
 
   const setFunctions = {
     setView: (x) => { setView(x) },

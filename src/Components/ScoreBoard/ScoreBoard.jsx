@@ -6,7 +6,7 @@ import { selectTime } from '../../redux/slices/time.slice';
 
 export default function ScoreBoard(){
   const { you, them } = useSelector( selectScore )
-  const time =  useSelector( selectTime)
+  const time =  useSelector( selectTime )
   return(
     <div className='wrapper'>
       <div className='header'>
@@ -30,16 +30,16 @@ export default function ScoreBoard(){
 
           <tr>
             <th>You</th>
-            <th>{you.round1 ? you.round1 : '-'}</th>
-            <th>{you.round2 ? you.round2 : '-'}</th>
-            <th>{you.round3 ? you.round3 : '-'}</th>
+            <th>{you[0] ? you[0] : '-'}</th>
+            <th>{you[1] ? you[1] : '-'}</th>
+            <th>{you[2]? you[2]: '-'}</th>
           </tr>
 
           <tr>
             <th>Them</th>
-            <th>{them.round1 ? them.round1 : '-'}</th>
-            <th>{them.round1 ? them.round2 : '-'}</th>
-            <th>{them.round1 ? them.round3 : '-'}</th>
+            <th>{them[0] ? them[0] : '-'}</th>
+            <th>{them[1] ? them[1] : '-'}</th>
+            <th>{them[2] ? them[2] : '-'}</th>
           </tr>
         </tbody>
 

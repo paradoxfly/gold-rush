@@ -23,7 +23,7 @@ export default class Participant{
         resolve: (t) => resolve(t)
       })
     })
-    updateScore('you', this.round + 1, time, this.dispatch)
+    updateScore('you', this.round, time, this.dispatch)
     this.utils.setTime(time)
     this.utils.setView(Views.AWAITING_TURN)
     this.round++
@@ -31,15 +31,23 @@ export default class Participant{
     return time;
   }
 
-  async opponentReplay(time){ //UInt (time it took opponent)
+  opponentReplay(time){ //UInt (time it took opponent)
     //logic for opponent replay or view time it took opponent
-    const opponentTime = this.reach.formatCurrency(time, 4);
-    updateScore('them', this.opponentRound + 1, opponentTime, this.dispatch)
-    this.utils.setView(Views.OPPONENT_REPLAY)
-    this.utils.setOpponentTime(time)
+    console.log('opponent time: ' + time)
+    const timeDecimal = parseInt(time)
+    updateScore('them', this.opponentRound, timeDecimal, this.dispatch)
+    this.opponentRound++
+    // this.utils.setView(Views.OPPONENT_REPLAY)
+    // this.utils.setOpponentTime(time)
   }
   
   informTimeout() { 
     this.utils.setView(Views.TIMEOUT);
+  }
+
+  showWinner(winner){
+    const outcome = winner.trim();
+    this.utils.setWinner(outcome)
+    this.utils.setView(Views.SHOW_WINNER)
   }
 }
