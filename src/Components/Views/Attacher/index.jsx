@@ -7,6 +7,7 @@ import Attacher from '../../../Classes/Attacher';
 import AcceptTerms from './AcceptTerms';
 import Timeout from '../Common/Timeout'
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
+import Loader from '../../Loader/Loader'
 import '../index.css'
 import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
@@ -18,7 +19,7 @@ export default function Attach(props){
   const dispatch = useDispatch()
   const { utils, reach, standardUnit } = props
   const action = useSelector(selectAction).action
-  const [view, setView] = useState(Views.ATTACH)
+  const [view, setView] = useState(Views.AWAITING_TURN)
   const [wager, setWager ] = useState(0)
   const [resolver, setResolver] = useState({})
   const [ctcInfoStr, setCtcInfoStr] = useState()
@@ -74,7 +75,11 @@ export default function Attach(props){
           <br />
           <button
             disabled={!ctcInfoStr}
-            onClick={() => utils.attach(ctcInfoStr, Bob)}
+            onClick={
+              () => {
+                utils.attach(ctcInfoStr, Bob)
+                setCtcInfoStr(false)
+              }}
           >Attach</button>
         </>
         : null
@@ -88,7 +93,7 @@ export default function Attach(props){
 
       {
         view === Views.ATTACHING ? 
-        <h2> Attaching... </h2> 
+        <Loader>Attaching to contract</Loader> 
         : null
       }
       {
@@ -124,8 +129,9 @@ export default function Attach(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard />
-          <h2>Opponent is playing his turn.. This might take a few minutes.</h2>
+          <ScoreBoard/>
+          <h2>This might take a few minutes.</h2>
+          <Loader>Waiting For Opponent</Loader>
         </>        
         : null
       }
@@ -135,9 +141,20 @@ export default function Attach(props){
         <> 
           <ScoreBoard />
           <h2>
-            { winner === 'b' && 'YOU WIN!!!!'}
-            { winner === 'a' && 'YOU LOSE!!'}
-            { winner === 'd' && 'ITS A DRAW! NOBODY WINS'}
+            { 
+              winner === 'b' && 
+              <Loader>YOU WIN!!!</Loader>
+            }
+
+            { 
+              winner === 'a' && 
+              <Loader>YOU LOSE!!!</Loader>
+            }
+
+            { 
+              winner === 'd' && 
+              <Loader>NOBODY WINS!!</Loader>
+            }
           </h2>
         </>
         : null
