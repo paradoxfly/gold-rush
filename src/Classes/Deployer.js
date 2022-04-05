@@ -10,9 +10,6 @@ export default class Deployer extends Participant{
 
   informAcceptedWager(){
     this.utils.setView(Views.ATTACH_SUCCESS)
-    setTimeout(() => {
-      this.utils.setView(Views.AWAITING_TURN)
-    }, 3000);
   }
 
   informWaitingForAttacher(){

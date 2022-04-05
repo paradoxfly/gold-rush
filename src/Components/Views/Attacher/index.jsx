@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAction } from '../../../redux/slices/action.slice';
 import { Views } from '../../../utils/constants';
@@ -22,10 +22,13 @@ export default function Attach(props){
   const [wager, setWager ] = useState(0)
   const [resolver, setResolver] = useState({})
   const [ctcInfoStr, setCtcInfoStr] = useState()
-  const [ time, setTime ] = useState([])
+  const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
   const [ round, setRound ] = useState(0)
   const [ play, setPlay ] = useState(true)
+  const [ hasPlayed, setHasPlayed ] = useState(false)
+  const [ getTime, setGetTime ] = useState(false)
+  const [ winner, setWinner ] = useState('')    //a (alice/deployer), b (bob/attacher) or d (draw)
 
   const stage1 = new StageOne(dispatch)
   const stage2 = new StageTwo(dispatch)
@@ -36,17 +39,23 @@ export default function Attach(props){
     setView: (x) => { setView(x) },
     setWager:  (x) => { setWager(x) },
     setResolver: (x) => { setResolver(x) },
-    setTime: (x) => { 
-      const copy = [...time]
-      setTime(copy.push(x))
-    },
     setOpponentTime: (x) => { 
       const copy = [...opponentTime]
       setOpponentTime(copy.push(x))
     },
     setRound: (x) => { setRound(x) },
-    setPlay: (x) => { setPlay(x) }
+    setPlay: (x) => { setPlay(x) },
+    setGetTime: (x) => { setGetTime(x) },
+    setWinner: (x) => { setWinner(x) }
   }
+
+  useEffect(() => {
+    if(hasPlayed && getTime){
+      resolver.resolve(time)
+      setHasPlayed(false)
+      setGetTime(false)
+    }
+  }, [ hasPlayed, resolver, time, getTime ])
 
   const Bob = new Attacher(reach, setFunctions, dispatch)
 
@@ -98,9 +107,11 @@ export default function Attach(props){
             disabled = {!play}
             onClick={ async () => {
               setPlay(false)
-              const time = await game(dispatch, stages[round], stages[round].options)
-              console.log(time)
-              resolver.resolve(time)
+              const result = await game(dispatch, stages[round], stages[round].options)
+              console.log(result)
+              setTime(result)
+              setHasPlayed(true)
+              setView(Views.AWAITING_TURN)
           } }>
             Start Game
           </button>
@@ -113,9 +124,22 @@ export default function Attach(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard/>
+          <ScoreBoard />
           <h2>Opponent is playing his turn.. This might take a few minutes.</h2>
         </>        
+        : null
+      }
+
+      {
+        view === Views.SHOW_WINNER ?
+        <> 
+          <ScoreBoard />
+          <h2>
+            { winner === 'b' && 'YOU WIN!!!!'}
+            { winner === 'a' && 'YOU LOSE!!'}
+            { winner === 'd' && 'ITS A DRAW! NOBODY WINS'}
+          </h2>
+        </>
         : null
       }
     </div>

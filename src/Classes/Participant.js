@@ -15,17 +15,13 @@ export default class Participant{
   }
   async getTime() { // Fun([], UInt)
     //logic for game
-    //must set view to enable canvas
-    this.utils.setView(Views.PLAY_TURN)
-    this.utils.setPlay(true)
     const time = await new Promise((resolve) => {
       this.utils.setResolver({
         resolve: (t) => resolve(t)
       })
+      this.utils.setGetTime(true)
     })
     updateScore('you', this.round, time, this.dispatch)
-    this.utils.setTime(time)
-    this.utils.setView(Views.AWAITING_TURN)
     this.round++
     this.utils.setRound(this.round)
     return time;
@@ -46,8 +42,14 @@ export default class Participant{
   }
 
   showWinner(winner){
-    const outcome = winner.trim();
+    const outcome = winner.charAt(0)
+    console.log("winner: " + outcome)
     this.utils.setWinner(outcome)
     this.utils.setView(Views.SHOW_WINNER)
+  }
+
+  informNewRound(){
+    this.utils.setView(Views.PLAY_TURN)
+    this.utils.setPlay(true)
   }
 }

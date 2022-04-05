@@ -50,7 +50,8 @@ const Player = {
   getTime: Fun([], UInt),
   opponentReplay: Fun([UInt], Null),
   informTimeout: Fun([], Null),
-  showWinner: Fun([Bytes(16)], Null)
+  showWinner: Fun([Bytes(16)], Null),
+  informNewRound: Fun([], Null),
 }
 
 export const main = Reach.App(() => {
@@ -74,6 +75,12 @@ export const main = Reach.App(() => {
   const informTimeout = () => {
     each([Alice, Bob], () => {
       interact.informTimeout();
+    });
+  };
+
+  const informNewRound = () => {
+    each([Alice, Bob], () => {
+      interact.informNewRound();
     });
   };
 
@@ -102,6 +109,8 @@ export const main = Reach.App(() => {
   invariant (balance() == 2 * wager);
   while(stage < 3) {
     commit();
+
+    informNewRound();
 
     //Bob plays his turn of the game stage and publishes how long it took
     Bob.only(() => {
