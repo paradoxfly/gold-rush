@@ -13,6 +13,7 @@ import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
+import { updateScore } from '../../../redux/utils/scores';
 
 
 export default function Attach(props){
@@ -25,7 +26,7 @@ export default function Attach(props){
   const [ctcInfoStr, setCtcInfoStr] = useState()
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const [ round, setRound ] = useState(0)
+  const [ round, setRound ] = useState(-1)
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
@@ -117,6 +118,7 @@ export default function Attach(props){
               setTime(result)
               setHasPlayed(true)
               setView(Views.AWAITING_TURN)
+              updateScore('you', round, result, dispatch)
           } }>
             Start Game
           </button>

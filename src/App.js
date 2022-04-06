@@ -21,7 +21,7 @@ const { standardUnit } = reach;
 const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
 
 function App(){
-  const [ view, setView ] = useState(Views.ATTACH)
+  const [ view, setView ] = useState(Views.CONNECT_ACCOUNT)
   const [ account, setAccount ] = useState({})
   const [ balance, setBalance ] = useState(0)
 
