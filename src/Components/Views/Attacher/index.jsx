@@ -19,7 +19,7 @@ export default function Attach(props){
   const dispatch = useDispatch()
   const { utils, reach, standardUnit } = props
   const action = useSelector(selectAction).action
-  const [view, setView] = useState(Views.AWAITING_TURN)
+  const [view, setView] = useState(Views.ATTACH)
   const [wager, setWager ] = useState(0)
   const [resolver, setResolver] = useState({})
   const [ctcInfoStr, setCtcInfoStr] = useState()
@@ -105,7 +105,7 @@ export default function Attach(props){
       {
         view === Views.PLAY_TURN ?
         <>
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <Canvas action = { action }/>
 
           <button 
@@ -129,7 +129,7 @@ export default function Attach(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard/>
+          <ScoreBoard round={round}/>
           <h2>This might take a few minutes.</h2>
           <Loader>Waiting For Opponent</Loader>
         </>        
@@ -139,7 +139,7 @@ export default function Attach(props){
       {
         view === Views.SHOW_WINNER ?
         <> 
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <h2>
             { 
               winner === 'b' && 

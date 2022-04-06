@@ -115,7 +115,7 @@ export default function Deploy(props){
       {
         view === Views.PLAY_TURN ?
         <>
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <Canvas action = { action }/>
 
           <button 
@@ -138,7 +138,7 @@ export default function Deploy(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard/>
+          <ScoreBoard round={round}/>
           <h2>This might take a few minutes.</h2>
           <Loader>Waiting For Opponent</Loader>   
         </>        
@@ -148,7 +148,7 @@ export default function Deploy(props){
 {
         view === Views.SHOW_WINNER ?
         <> 
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <h2>
             { 
               winner === 'a' && 
