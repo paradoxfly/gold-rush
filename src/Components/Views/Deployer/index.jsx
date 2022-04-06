@@ -3,6 +3,7 @@ import { Views } from '../../../utils/constants';
 import Deployer from '../../../Classes/Deployer';
 import Canvas from '../../Canvas/Canvas';
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
+import Loader from "../../Loader/Loader";
 import Timeout from '../Common/Timeout';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAction } from '../../../redux/slices/action.slice';
@@ -11,6 +12,7 @@ import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
+import { updateScore } from '../../../redux/utils/scores';
 
 export default function Deploy(props){
   const dispatch = useDispatch()
@@ -23,7 +25,7 @@ export default function Deploy(props){
   const [ opponentTime, setOpponentTime ] = useState([])
   const action = useSelector(selectAction).action
 
-  const [ round, setRound ] = useState(0)
+  const [ round, setRound ] = useState(-1)
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
@@ -72,10 +74,10 @@ export default function Deploy(props){
           <button
             disabled={ ! (wager > 0) }
             onClick={ async () => {
+              setView(Views.DEPLOYING)
               const info = await utils.deploy(Alice, wager)
               console.log(info)
               setCtcInfo(info)
-              setView(Views.DEPLOYING)
               }}>
           Deploy</button>
         </>
@@ -84,16 +86,16 @@ export default function Deploy(props){
 
       {
         view === Views.DEPLOYING ? 
-        <h2> Deploying... </h2> 
+        <Loader>Deploying Contract</Loader> 
         : null
       }
 
       {
         view === Views.WAITING_FOR_ATTACHER ?
         <div>
-          <h2>Waiting for attacher</h2> 
-          <label>Contract Information</label>
+          <label>Contract Information</label><br/>
           <textarea disabled value = {ctcInfo}/>
+          <Loader>Waiting for attacher</Loader> 
         </div>
         
         : null
@@ -114,7 +116,7 @@ export default function Deploy(props){
       {
         view === Views.PLAY_TURN ?
         <>
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <Canvas action = { action }/>
 
           <button 
@@ -126,6 +128,7 @@ export default function Deploy(props){
               setTime(result)
               setHasPlayed(true)
               setView(Views.AWAITING_TURN)
+              updateScore('you', round, result, dispatch)
           } }>
             Start Game
           </button>
@@ -137,8 +140,9 @@ export default function Deploy(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard/>
-          <h2>Opponent is playing his turn.. This might take a few minutes.</h2>
+          <ScoreBoard round={round}/>
+          <h2>This might take a few minutes.</h2>
+          <Loader>Waiting For Opponent</Loader>   
         </>        
         : null
       }
@@ -146,11 +150,22 @@ export default function Deploy(props){
 {
         view === Views.SHOW_WINNER ?
         <> 
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <h2>
-            { winner === 'a' && 'YOU WIN!!!!'}
-            { winner === 'b' && 'YOU LOSE!!'}
-            { winner === 'd' && 'ITS A DRAW! NOBODY WINS'}
+            { 
+              winner === 'a' && 
+              <Loader>YOU WIN!!!</Loader>
+            }
+
+            { 
+              winner === 'b' && 
+              <Loader>YOU LOSE!!!</Loader>
+            }
+
+            { 
+              winner === 'd' && 
+              <Loader>NOBODY WINS!!</Loader>
+            }
           </h2>
         </>
         : null

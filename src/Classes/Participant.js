@@ -3,7 +3,7 @@ import { updateScore } from "../redux/utils/scores";
 
 export default class Participant{
   constructor(reach, setFunctions, dispatch){
-    this.round = 0;
+    this.round = -1;
     this.opponentRound = 0;
     this.dispatch = dispatch
     this.reach = reach
@@ -22,8 +22,6 @@ export default class Participant{
       this.utils.setGetTime(true)
     })
     updateScore('you', this.round, time, this.dispatch)
-    this.round++
-    this.utils.setRound(this.round)
     return time;
   }
 
@@ -49,6 +47,8 @@ export default class Participant{
   }
 
   informNewRound(){
+    this.round++
+    this.utils.setRound(this.round)
     this.utils.setView(Views.PLAY_TURN)
     this.utils.setPlay(true)
   }

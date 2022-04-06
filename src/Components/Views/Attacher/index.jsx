@@ -7,11 +7,13 @@ import Attacher from '../../../Classes/Attacher';
 import AcceptTerms from './AcceptTerms';
 import Timeout from '../Common/Timeout'
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
+import Loader from '../../Loader/Loader'
 import '../index.css'
 import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
+import { updateScore } from '../../../redux/utils/scores';
 
 
 export default function Attach(props){
@@ -24,7 +26,7 @@ export default function Attach(props){
   const [ctcInfoStr, setCtcInfoStr] = useState()
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const [ round, setRound ] = useState(0)
+  const [ round, setRound ] = useState(-1)
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
@@ -74,7 +76,11 @@ export default function Attach(props){
           <br />
           <button
             disabled={!ctcInfoStr}
-            onClick={() => utils.attach(ctcInfoStr, Bob)}
+            onClick={
+              () => {
+                utils.attach(ctcInfoStr, Bob)
+                setCtcInfoStr(false)
+              }}
           >Attach</button>
         </>
         : null
@@ -88,7 +94,7 @@ export default function Attach(props){
 
       {
         view === Views.ATTACHING ? 
-        <h2> Attaching... </h2> 
+        <Loader>Attaching to contract</Loader> 
         : null
       }
       {
@@ -100,7 +106,7 @@ export default function Attach(props){
       {
         view === Views.PLAY_TURN ?
         <>
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <Canvas action = { action }/>
 
           <button 
@@ -112,6 +118,7 @@ export default function Attach(props){
               setTime(result)
               setHasPlayed(true)
               setView(Views.AWAITING_TURN)
+              updateScore('you', round, result, dispatch)
           } }>
             Start Game
           </button>
@@ -124,8 +131,9 @@ export default function Attach(props){
       {
         view === Views.AWAITING_TURN ?
         <>
-          <ScoreBoard />
-          <h2>Opponent is playing his turn.. This might take a few minutes.</h2>
+          <ScoreBoard round={round}/>
+          <h2>This might take a few minutes.</h2>
+          <Loader>Waiting For Opponent</Loader>
         </>        
         : null
       }
@@ -133,11 +141,22 @@ export default function Attach(props){
       {
         view === Views.SHOW_WINNER ?
         <> 
-          <ScoreBoard />
+          <ScoreBoard round={round}/>
           <h2>
-            { winner === 'b' && 'YOU WIN!!!!'}
-            { winner === 'a' && 'YOU LOSE!!'}
-            { winner === 'd' && 'ITS A DRAW! NOBODY WINS'}
+            { 
+              winner === 'b' && 
+              <Loader>YOU WIN!!!</Loader>
+            }
+
+            { 
+              winner === 'a' && 
+              <Loader>YOU LOSE!!!</Loader>
+            }
+
+            { 
+              winner === 'd' && 
+              <Loader>NOBODY WINS!!</Loader>
+            }
           </h2>
         </>
         : null
