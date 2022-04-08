@@ -69,8 +69,57 @@ export default class Player extends Object{     //Default starting coordinates (
 		}
 	}
 
+	diagonalJump(direction){
+		let surface = this.stageSurface
+		let jumpHeight = 18
+		let holder1 = 0
+		for (let j = 0; j < surface.length; j++){
+			if( (!overlap(surface[j], this.checkSurface(this.x, this.y+1))) ){
+				holder1++
+			}
+		}
+		if (holder1 !== surface.length){
+			setInterval(() => {
+				let holder = 0
+				for (let i = 0; i < surface.length; i++){
+					if((!overlap(surface[i], this.checkSurface(this.x, this.y-1)))){
+						holder++
+					}
+				}
+				if(jumpHeight>0){
+					if(holder === surface.length){
+						this.move(this.x, this.y-1)
+						this.moveHorizontal(direction)
+						this.moveHorizontal(direction)
+					}
+				}
+				else{
+					clearInterval()
+				}
+				jumpHeight--
+			}, 18);
+		}
+	}
+
+	moveHorizontal(direction){ //surface conscious, one step
+		const xDirection = direction === "right" ? this.x + 1 : direction === "left" ?  this.x - 1 : null;
+		this.setSurface(xDirection, this.y)
+		let counter = 0
+		for(let i = 0; i < this.stageSurface.length; i++){
+			if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(xDirection, this.y)){
+				counter++;
+			}
+		}
+		if (counter === this.stageSurface.length){
+			this.move(xDirection, this.y)
+		}
+		else{
+			this.setSurface(this.x,this.y)
+		}
+	}
+
 	controller(event){
-		if (event.key === "w"){
+		if ((event.key === "w")||(event.key===" ")){
 			this.jump()
 		}
 		else if(event.key === "s"){
@@ -88,35 +137,17 @@ export default class Player extends Object{     //Default starting coordinates (
 				this.setSurface(this.x,this.y)
 			}
 		}
-		else if(event.key === "a"){
-			this.setSurface(this.x-1, this.y)
-			let counter = 0
-			for(let i = 0; i < this.stageSurface.length; i++){
-				if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(this.x-1, this.y)){
-					counter++;
-				}
-			}
-			if (counter === this.stageSurface.length){
-				this.move(this.x-1, this.y)
-			}
-			else{
-				this.setSurface(this.x,this.y)
-			}
+		else if((event.key === "a")||(event.key === "ArrowLeft")){
+			this.moveHorizontal("left")
 		}
-		else if(event.key === "d"){
-			this.setSurface(this.x+1, this.y)
-			let counter = 0
-			for(let i = 0; i < this.stageSurface.length; i++){
-				if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(this.x+1, this.y)){
-					counter++;
-				}
-			}
-			if (counter === this.stageSurface.length){
-				this.move(this.x+1, this.y)
-			}
-			else{
-				this.setSurface(this.x,this.y)
-			}
+		else if((event.key === "d")||(event.key === "ArrowRight")){
+			this.moveHorizontal("right")
+		}
+		else if((event.key === "q")){
+			this.diagonalJump("left")
+		}
+		else if((event.key === "e")){
+			this.diagonalJump("right")
 		}
 	}
 }	

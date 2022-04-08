@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+/.vscode
+/Refactored
+.txt
+.gitignore
 
 # testing
 /coverage
