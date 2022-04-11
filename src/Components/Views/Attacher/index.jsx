@@ -26,7 +26,7 @@ export default function Attach(props){
   const [ctcInfoStr, setCtcInfoStr] = useState()
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const [ round, setRound ] = useState(-1)
+  const [ round, setRound ] = useState(-1) //should be -1
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
