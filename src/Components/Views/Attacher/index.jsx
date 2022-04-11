@@ -20,13 +20,13 @@ export default function Attach(props){
   const dispatch = useDispatch()
   const { utils, reach, standardUnit } = props
   const action = useSelector(selectAction).action
-  const [view, setView] = useState(Views.PLAY_TURN)
+  const [view, setView] = useState(Views.ATTACH)
   const [wager, setWager ] = useState(0)
   const [resolver, setResolver] = useState({})
   const [ctcInfoStr, setCtcInfoStr] = useState()
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const [ round, setRound ] = useState(0) //should be -1
+  const [ round, setRound ] = useState(-1) //should be -1
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
