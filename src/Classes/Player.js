@@ -16,9 +16,21 @@ export default class Player extends Object{     //Default starting coordinates (
 		this.color = color
 		this.surface = []
 		this.stageSurface = []
+		this.activeKeys = {
+			w: false,
+			s: false,
+			a: false,
+			d: false,
+			ArrowUp: false,
+			ArrowDown: false,
+			ArrowLeft: false,
+			ArrowRight: false
+		}
+		this.unClick = this.unClick.bind(this)
 		this.controller = this.controller.bind(this)
 		this.blink = this.blink.bind(this)
 		this.jump = this.jump.bind(this)
+		this.diagonalJump = this.diagonalJump.bind(this)
 	}
 
 	blink(){
@@ -71,7 +83,8 @@ export default class Player extends Object{     //Default starting coordinates (
 
 	diagonalJump(direction){
 		let surface = this.stageSurface
-		let jumpHeight = 18
+		let k = 0
+		let jumpHeight = 16
 		let holder1 = 0
 		for (let j = 0; j < surface.length; j++){
 			if( (!overlap(surface[j], this.checkSurface(this.x, this.y+1))) ){
@@ -89,13 +102,15 @@ export default class Player extends Object{     //Default starting coordinates (
 				if(jumpHeight>0){
 					if(holder === surface.length){
 						this.move(this.x, this.y-1)
-						this.moveHorizontal(direction)
-						this.moveHorizontal(direction)
+						if(k%2===0){
+							this.moveHorizontal(direction)
+						}
 					}
 				}
 				else{
 					clearInterval()
 				}
+				k++
 				jumpHeight--
 			}, 18);
 		}
@@ -119,10 +134,19 @@ export default class Player extends Object{     //Default starting coordinates (
 	}
 
 	controller(event){
-		if ((event.key === "w")||(event.key===" ")){
+		this.activeKeys[event.key] = true
+		if(	(this.activeKeys.ArrowUp || this.activeKeys.w) && 
+			(this.activeKeys.ArrowRight || this.activeKeys.d)) {
+				this.diagonalJump("right")
+		}
+		else if( (this.activeKeys.ArrowUp || this.activeKeys.w) && 
+		(this.activeKeys.ArrowLeft || this.activeKeys.a)) {
+			this.diagonalJump("left")
+		}
+		else if ((event.key === "w")||(event.key==="ArrowUp")){
 			this.jump()
 		}
-		else if(event.key === "s"){
+		else if((event.key === "s")||(event.key==="ArrowDown")){
 			this.setSurface(this.x, this.y+1)
 			let counter = 0
 			for(let i = 0; i < this.stageSurface.length; i++){
@@ -143,11 +167,9 @@ export default class Player extends Object{     //Default starting coordinates (
 		else if((event.key === "d")||(event.key === "ArrowRight")){
 			this.moveHorizontal("right")
 		}
-		else if((event.key === "q")){
-			this.diagonalJump("left")
-		}
-		else if((event.key === "e")){
-			this.diagonalJump("right")
-		}
+	}
+
+	unClick(event){
+		this.activeKeys[event.key] = false
 	}
 }	
