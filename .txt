@@ -1,0 +1,5 @@
+intact, evolve, exchange, swim, wolf, flee, release, vault, gas, stove, exhaust, later, field, hello, warm, hurt, ugly, assume, curve, gaze, weapon, text, ordinary, able, blur
+
+pitch, uncover, sound, gadget, rookie, cannon, broken, antenna, bag, network, concert, squeeze, skull, search, razor, cute, dinosaur, uphold, sense, priority, machine, illegal, odor, abandon, pilot
+
+TMP=$(mktemp -d "/home/paradoxfly/reach/temp/reach.$(date -u '+%Y-%m-%dT%H-%M-%SZ')-XXXX")
