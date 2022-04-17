@@ -27,17 +27,24 @@ function App(){
 
   const utils = {
 
-    connectAccount: async () => {
-      const account = await reach.getDefaultAccount();
-      const balanceAtomic = await reach.balanceOf(account);
-      const balance = reach.formatCurrency(balanceAtomic, 4);
-      setAccount(account);
-      setBalance(balance)
-      if (await reach.canFundFromFaucet()) {
-        setView(Views.FUND_ACCOUNT)
-      } else {
-        setView(Views.DEPLOYER_OR_ATTACHER)
+    connectAccount: async (secret, mnemonic = false) => {
+      let result = ""
+      try {
+        const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
+        const balanceAtomic = await reach.balanceOf(account);
+        const balance = reach.formatCurrency(balanceAtomic, 4);
+        setAccount(account);
+        setBalance(balance)
+        if (await reach.canFundFromFaucet()) {
+          setView(Views.FUND_ACCOUNT)
+        } else {
+          setView(Views.DEPLOYER_OR_ATTACHER)
+        }
+        result = 'success'
+      } catch (error) {
+        result = 'failed'
       }
+      return result
     },
 
     fundAccount: async (fundAmount) => {
