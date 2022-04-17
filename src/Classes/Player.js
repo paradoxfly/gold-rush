@@ -16,9 +16,21 @@ export default class Player extends Object{     //Default starting coordinates (
 		this.color = color
 		this.surface = []
 		this.stageSurface = []
+		this.activeKeys = {
+			w: false,
+			s: false,
+			a: false,
+			d: false,
+			ArrowUp: false,
+			ArrowDown: false,
+			ArrowLeft: false,
+			ArrowRight: false
+		}
+		this.unClick = this.unClick.bind(this)
 		this.controller = this.controller.bind(this)
 		this.blink = this.blink.bind(this)
 		this.jump = this.jump.bind(this)
+		this.diagonalJump = this.diagonalJump.bind(this)
 	}
 
 	blink(){
@@ -69,11 +81,72 @@ export default class Player extends Object{     //Default starting coordinates (
 		}
 	}
 
+	diagonalJump(direction){
+		let surface = this.stageSurface
+		let k = 0
+		let jumpHeight = 16
+		let holder1 = 0
+		for (let j = 0; j < surface.length; j++){
+			if( (!overlap(surface[j], this.checkSurface(this.x, this.y+1))) ){
+				holder1++
+			}
+		}
+		if (holder1 !== surface.length){
+			setInterval(() => {
+				let holder = 0
+				for (let i = 0; i < surface.length; i++){
+					if((!overlap(surface[i], this.checkSurface(this.x, this.y-1)))){
+						holder++
+					}
+				}
+				if(jumpHeight>0){
+					if(holder === surface.length){
+						this.move(this.x, this.y-1)
+						if(k%2===0){
+							this.moveHorizontal(direction)
+						}
+					}
+				}
+				else{
+					clearInterval()
+				}
+				k++
+				jumpHeight--
+			}, 18);
+		}
+	}
+
+	moveHorizontal(direction){ //surface conscious, one step
+		const xDirection = direction === "right" ? this.x + 1 : direction === "left" ?  this.x - 1 : null;
+		this.setSurface(xDirection, this.y)
+		let counter = 0
+		for(let i = 0; i < this.stageSurface.length; i++){
+			if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(xDirection, this.y)){
+				counter++;
+			}
+		}
+		if (counter === this.stageSurface.length){
+			this.move(xDirection, this.y)
+		}
+		else{
+			this.setSurface(this.x,this.y)
+		}
+	}
+
 	controller(event){
-		if (event.key === "w"){
+		this.activeKeys[event.key] = true
+		if(	(this.activeKeys.ArrowUp || this.activeKeys.w) && 
+			(this.activeKeys.ArrowRight || this.activeKeys.d)) {
+				this.diagonalJump("right")
+		}
+		else if( (this.activeKeys.ArrowUp || this.activeKeys.w) && 
+		(this.activeKeys.ArrowLeft || this.activeKeys.a)) {
+			this.diagonalJump("left")
+		}
+		else if ((event.key === "w")||(event.key==="ArrowUp")){
 			this.jump()
 		}
-		else if(event.key === "s"){
+		else if((event.key === "s")||(event.key==="ArrowDown")){
 			this.setSurface(this.x, this.y+1)
 			let counter = 0
 			for(let i = 0; i < this.stageSurface.length; i++){
@@ -88,35 +161,15 @@ export default class Player extends Object{     //Default starting coordinates (
 				this.setSurface(this.x,this.y)
 			}
 		}
-		else if(event.key === "a"){
-			this.setSurface(this.x-1, this.y)
-			let counter = 0
-			for(let i = 0; i < this.stageSurface.length; i++){
-				if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(this.x-1, this.y)){
-					counter++;
-				}
-			}
-			if (counter === this.stageSurface.length){
-				this.move(this.x-1, this.y)
-			}
-			else{
-				this.setSurface(this.x,this.y)
-			}
+		else if((event.key === "a")||(event.key === "ArrowLeft")){
+			this.moveHorizontal("left")
 		}
-		else if(event.key === "d"){
-			this.setSurface(this.x+1, this.y)
-			let counter = 0
-			for(let i = 0; i < this.stageSurface.length; i++){
-				if (!overlap(this.surface, this.stageSurface[i])&&!this.outOfBounds(this.x+1, this.y)){
-					counter++;
-				}
-			}
-			if (counter === this.stageSurface.length){
-				this.move(this.x+1, this.y)
-			}
-			else{
-				this.setSurface(this.x,this.y)
-			}
+		else if((event.key === "d")||(event.key === "ArrowRight")){
+			this.moveHorizontal("right")
 		}
+	}
+
+	unClick(event){
+		this.activeKeys[event.key] = false
 	}
 }	

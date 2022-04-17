@@ -1,5 +1,4 @@
 import React from 'react'
-import { Views } from '../../../utils/constants'
 
 export default function AcceptTerms(props){
   const { wager, standardUnit, acceptTerms} = props

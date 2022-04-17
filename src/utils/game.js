@@ -115,6 +115,7 @@ export default function game(dispatch, stage, options){
         console.log(`It took you ${time} seconds`)
         clearIntervals()
         window.removeEventListener('keydown', _player.controller)
+        window.removeEventListener('keyup', _player.unClick)
         resolve(time)
       }
     }
@@ -130,6 +131,7 @@ export default function game(dispatch, stage, options){
 
 
       window.addEventListener('keydown', _player.controller)
+      window.addEventListener('keyup', _player.unClick)
 
       //start time count
       startCount();
