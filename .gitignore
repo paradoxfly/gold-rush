@@ -3,9 +3,10 @@
 # dependencies
 /node_modules
 /.pnp
-/Refactored
 .pnp.js
 /.vscode
+/Refactored
+.gitignore
 
 # testing
 /coverage
