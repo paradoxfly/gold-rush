@@ -17,7 +17,7 @@ export default function ConnectAccount({connect}){
       </button>
       <h3>OR</h3>
       <div className='mnemonic'>
-        <h4 htmlFor='secret'>Import Account By Mnemonic Key</h4>
+        <span>Import Account By Mnemonic Key</span><br/>
         {
           error && <small className='error'>Invalid mnemonic key</small>
         }
@@ -32,7 +32,7 @@ export default function ConnectAccount({connect}){
         /><br/>
         <button onClick={ async e => {
           setLoading(true)
-          const con = await connect(secret, true)
+          const con = await connect(secret.trim(), true)
           if(con === 'failed'){
             setLoading(false)
             setError(true)

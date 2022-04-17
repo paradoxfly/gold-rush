@@ -6,8 +6,8 @@
 	max-width: 100vw;
 	height: 100%;
 	min-height: 100%;
-	background-color: rgba(240, 238, 234, 0.65);
-	z-index: 1000;
+	background-color: rgba(250, 244, 244, 0.3);
+	z-index: 100;
 	overflow-x: hidden !important;
 	display: flex;
 	justify-content: center;
@@ -35,10 +35,11 @@
 	.back span {
 		font-size:1em;
     font-weight: 700;
-		color:gold;
-		background:#606266;
-    background: slategray;
+		color:whitesmoke;
+		background:#262729;
+    /* background: slategray; */
 		display:table-cell;
+		border-radius: 3px;
 		box-shadow:inset 0 0 5px rgba(0,0,0,0.3), 0 5px 0 #ccc;
 		padding: 0 15px;
 		line-height: 80px;

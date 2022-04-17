@@ -6,18 +6,18 @@ export default function DeployerOrAttacher(props){
     return (
       <div className = 'div'>
         <h2>Please select a role:</h2>
-        <h4>
+        <h5>
           <button
             onClick={() => utils.selectDeployer()}
           >Deployer</button>
           <br /> Set the wager, deploy the contract.
-        </h4>
-        <h4>
+        </h5>
+        <h5>
           <button
             onClick={() => utils.selectAttacher()}
           >Attacher</button>
           <br /> Attach to the Deployer's contract.
-        </h4>
+        </h5>
       </div>
     );
 }

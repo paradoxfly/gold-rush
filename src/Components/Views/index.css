@@ -25,21 +25,27 @@
 }
 
 .div button {
-  border-radius: 0.2em;
+  border-radius: 2em;
   margin: 0.5em;
-  border: 0; 
+  border: 0.1em solid gray; 
   cursor: pointer;
-  min-height: 3em;
-  width: 8em;
+  min-height: 2.7em;
+  min-width: 9em;
+  padding: 1.1em 1em;
+  background-color: rgb(93, 130, 197);
+  color: rgb(248, 248, 248);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
 }
 
-.div button :hover{
-  color: white;
-  background-color: black;
+.div button:hover{
+  filter: brightness(90%);
+  transform:scale(105%);
 }
 
 .connect {
-  margin-top: 2em;
+  margin-top: 4em;
 }
 
 .error{

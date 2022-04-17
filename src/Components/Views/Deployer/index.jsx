@@ -94,8 +94,8 @@ export default function Deploy(props){
         view === Views.WAITING_FOR_ATTACHER ?
         <div>
           <label>Contract Information</label><br/>
-          <textarea disabled value = {ctcInfo}/>
-          <Loader>Waiting for attacher</Loader> 
+          <textarea disabled value = {ctcInfo} className='high-index'/>
+          <h3>WAIT FOR ATTACHER</h3>
         </div>
         
         : null

@@ -1,16 +1,47 @@
 .nav{
   flex: content;
-  background-color: slategray;
+  /* background-color: rgb(98, 105, 79); */
+  /* background:linear-gradient(rgb(98, 105, 79), #0e0f0f); */
+  /* background:linear-gradient(gold , #0e0f0f); */
   padding-top: .3em;
   padding-bottom: .3em;
   text-align: center;
-  /* margin-left: 5%;
-  margin-right: 5%; */
-  border-bottom-right-radius: 1em;
-  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 0em;
+  border-bottom-left-radius: 0em;
 }
 
 .nav h1{
-  color: gold;
-  font-family: fantasy;
+  color: rgb(240, 207, 77);
+  font-family: monospace;
+  font-size: 45px;
+  font-weight: 900;
+  text-transform: capitalize;
+  
+  text-shadow: -5px -3px darkcyan;
+  animation: fly 1.2s infinite;
+}
+
+@keyframes fly {
+  0% {
+    transform:translateY(0px);
+  }
+  16% {
+    transform:scale(95%);
+  }
+  32%{
+    transform: scale(90%);
+  }
+  48% {
+    transform: scale(85%);
+  }
+  64%{
+    transform: scale(90%);
+  }
+  80%{
+    transform: scale(95%);
+  }
+
+  100% {
+    transform:translateY(0px);
+  }
 }
