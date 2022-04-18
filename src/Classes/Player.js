@@ -3,7 +3,7 @@ import { overlap } from "../utils/surfaceFunctions"
 import Object from "./Object"
 
 export default class Player extends Object{     //Default starting coordinates (108,31)
-	constructor(dispatch, x, y, color = "yellow"){
+	constructor(dispatch, x, y, color = "goldenrod"){
 		super()
 		this.gravID = null
 		this.dispatch = dispatch

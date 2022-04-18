@@ -1,33 +1,108 @@
 table{
+  color:rgb(143, 136, 136);
   flex: 100%;
   padding: 0;
   background-color: transparent;
   text-align: center;
-  /* border: 1px solid rgb(0,0,0,0.3); */
+  border: 1px solid rgba(201, 198, 198, 0.1);
+  border-radius: 8px;
 }
 th{
   width: 3em;
   border: 1px solid rgb(0,0,0,0.2);
+  height: 1.7em;
 }
 .wrapper{
   position: absolute;
-  left: 0;
+  /* left: 0; */
+  right: 0;
   top: 0;
   border-radius: 0.1em;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 30%;
-  background-color: darkslategray;
+  /* background-color: darkslategray; */
+  background-color: transparent;
 }
 .header{
+  text-transform: uppercase;
   font-family: fantasy;
+  font-size: 24px;
 }
 
 .time{
   flex: 100%;
+  text-align: right;
+  margin-right: 5px;
 }
 
 .active{
-  background: rgb(43, 122, 122);
+  /* background: rgb(43, 122, 122); */
+  border: 1px solid green;
+  animation: neon 0.9s infinite;
+}
+
+.entrance{
+  font-family: sans-serif;
+  font-size: 18px;
+  animation: time 2.5s;
+  color: yellow;
+}
+
+@keyframes neon{
+  0%{
+    border: 2px solid green;
+  }
+  20%{
+    border: 2px dotted rgb(95, 95, 43);
+  }
+  40%{
+    border: 2px dashed rgb(51, 38, 38);
+  }
+  60%{
+    border: 2px dotted rgb(117, 102, 117);
+  }
+  80%{
+    border: 2px dashed rgb(143, 136, 136);
+  }
+  100%{
+    border: 2px solid rgb(34, 37, 34);
+  }
+}
+
+@keyframes time{
+  0%{
+    color: yellow;
+  }
+  10%{
+    color: transparent;
+  }
+  20%{
+    color: yellow;
+  }
+  30%{
+    color: transparent;
+  }
+  40%{
+    color: yellow;
+  }
+  50%{
+    color: transparent;
+  }
+  60%{
+    color: yellow;
+  }
+  70%{
+    color: transparent;
+  }
+  80%{
+    color: yellow;
+  }
+  90%{
+    color: transparent;
+  }
+  100%{
+    color: yellow;
+  }
 }
