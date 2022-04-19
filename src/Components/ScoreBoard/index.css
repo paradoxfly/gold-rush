@@ -1,29 +1,32 @@
 table{
-  color:rgb(143, 136, 136);
+  color:rgb(248, 245, 245);
   flex: 100%;
   padding: 0;
   background-color: transparent;
   text-align: center;
-  border: 1px solid rgba(201, 198, 198, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
 }
 th{
   width: 3em;
-  border: 1px solid rgb(0,0,0,0.2);
+  /* border: 1px solid rgba(255, 254, 254, 0.433); */
   height: 1.7em;
+  /* border-radius: 0.3em; */
 }
 .wrapper{
   position: absolute;
   /* left: 0; */
   right: 0;
-  top: 0;
-  border-radius: 0.1em;
+  top: 6px;
+  border: 2px dotted dodgerblue;
+  border-radius: 1em;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   width: 30%;
-  /* background-color: darkslategray; */
-  background-color: transparent;
+  background-color: rgb(23, 29, 29);
+  animation: outer 1s infinite;
+  /* background-color: transparent; */
 }
 .header{
   text-transform: uppercase;
@@ -55,19 +58,19 @@ th{
     border: 2px solid green;
   }
   20%{
-    border: 2px dotted rgb(95, 95, 43);
+    border: 2px dotted yellow;
   }
   40%{
-    border: 2px dashed rgb(51, 38, 38);
+    border: 2px dashed white;
   }
   60%{
-    border: 2px dotted rgb(117, 102, 117);
+    border: 2px dotted greenyellow;
   }
   80%{
-    border: 2px dashed rgb(143, 136, 136);
+    border: 2px dashed orange;
   }
   100%{
-    border: 2px solid rgb(34, 37, 34);
+    border: 2px solid orange;
   }
 }
 
@@ -104,5 +107,26 @@ th{
   }
   100%{
     color: yellow;
+  }
+}
+
+@keyframes outer{
+  0%{
+    border: 2px solid green;
+  }
+  20%{
+    border: 2px dotted yellow;
+  }
+  40%{
+    border: 2px dashed white;
+  }
+  60%{
+    border: 2px dotted greenyellow;
+  }
+  80%{
+    border: 2px dashed orange;
+  }
+  100%{
+    border: 2px solid orange;
   }
 }

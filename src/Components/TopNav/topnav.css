@@ -1,21 +1,16 @@
 .nav{
   flex: content;
-  /* background-color: rgb(98, 105, 79); */
-  /* background:linear-gradient(rgb(98, 105, 79), #0e0f0f); */
-  /* background:linear-gradient(gold , #0e0f0f); */
-  padding-top: .3em;
-  padding-bottom: .3em;
+  padding-top: .1em;
+  padding-bottom: .1em;
   text-align: center;
-  border-bottom-right-radius: 0em;
-  border-bottom-left-radius: 0em;
 }
 
 .nav h1{
-  color: rgb(240, 207, 77);
-  font-family: monospace;
-  font-size: 50px;
+  color: gold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 52px;
   font-weight: 900;
-  text-transform: capitalize;
+  text-transform: uppercase;
   
   text-shadow: -5px -3px darkcyan;
   animation: fly 1.2s infinite;
@@ -27,6 +22,7 @@
   }
   16% {
     transform:scale(95%);
+    transform: rotate(3deg);
   }
   32%{
     transform: scale(90%);
@@ -39,6 +35,7 @@
   }
   80%{
     transform: scale(95%);
+    transform: rotate(-3deg);
   }
 
   100% {

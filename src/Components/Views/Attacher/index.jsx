@@ -7,6 +7,7 @@ import Attacher from '../../../Classes/Attacher';
 import AcceptTerms from './AcceptTerms';
 import Timeout from '../Common/Timeout'
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
+import ShowWinner from '../Common/ShowWinner';
 import Loader from '../../Loader/Loader'
 import '../index.css'
 import game from '../../../utils/game'
@@ -140,25 +141,7 @@ export default function Attach(props){
 
       {
         view === Views.SHOW_WINNER ?
-        <> 
-          <ScoreBoard round={round}/>
-          <h2>
-            { 
-              winner === 'b' && 
-              <Loader>YOU WIN!!!</Loader>
-            }
-
-            { 
-              winner === 'a' && 
-              <Loader>YOU LOSE!!!</Loader>
-            }
-
-            { 
-              winner === 'd' && 
-              <Loader>NOBODY WINS!!</Loader>
-            }
-          </h2>
-        </>
+         <ShowWinner round={round} winner={winner} deployer={false} playAgain={()=> { utils.playAgain() }}/>
         : null
       }
     </div>

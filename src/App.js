@@ -64,6 +64,10 @@ function App(){
       setView(Views.ATTACH)
     },
 
+    playAgain: async () => {
+      setView(Views.DEPLOYER_OR_ATTACHER)
+    },
+
     attach: (ctcInfoStr, attacher) => {
       const ctc = account.contract(backend, JSON.parse(ctcInfoStr));
       backend.Bob(ctc, attacher);

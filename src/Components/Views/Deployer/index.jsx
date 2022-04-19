@@ -3,6 +3,7 @@ import { Views } from '../../../utils/constants';
 import Deployer from '../../../Classes/Deployer';
 import Canvas from '../../Canvas/Canvas';
 import ScoreBoard from '../../ScoreBoard/ScoreBoard';
+import ShowWinner from '../Common/ShowWinner';
 import Loader from "../../Loader/Loader";
 import Timeout from '../Common/Timeout';
 import { useSelector, useDispatch } from 'react-redux';
@@ -147,26 +148,10 @@ export default function Deploy(props){
         : null
       }
 
-{
+      {
         view === Views.SHOW_WINNER ?
         <> 
-          <ScoreBoard round={round}/>
-          <h2>
-            { 
-              winner === 'a' && 
-              <Loader>YOU WIN!!!</Loader>
-            }
-
-            { 
-              winner === 'b' && 
-              <Loader>YOU LOSE!!!</Loader>
-            }
-
-            { 
-              winner === 'd' && 
-              <Loader>NOBODY WINS!!</Loader>
-            }
-          </h2>
+          <ShowWinner round={round} winner={winner} deployer={true} playAgain={()=> { utils.playAgain() }}/>
         </>
         : null
       }
