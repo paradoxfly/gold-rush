@@ -40,6 +40,11 @@ th{
   margin-right: 5px;
 }
 
+.total{
+  flex: 100%;
+  animation: tot 1s infinite;
+}
+
 .active{
   /* background: rgb(43, 122, 122); */
   border: 1px solid green;
@@ -128,5 +133,17 @@ th{
   }
   100%{
     border: 2px solid orange;
+  }
+}
+
+@keyframes tot {
+  0%{
+    color: yellow;
+  }
+  50%{
+    color: green;
+  }
+  100%{
+    color: pink;
   }
 }

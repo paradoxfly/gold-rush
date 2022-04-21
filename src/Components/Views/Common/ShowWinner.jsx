@@ -4,7 +4,7 @@ import Outcome from '../../Outcome/Outcome';
 export default function ShowWinner({ round, winner, deployer, playAgain }){
   return(
     <>
-      <ScoreBoard round={round}/>
+      <ScoreBoard round={round} showTotal={true}/>
       <h2>
         { 
           winner === 'a' ?
