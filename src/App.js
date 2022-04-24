@@ -16,7 +16,7 @@ import {loadStdlib} from '@reach-sh/stdlib';
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
 
 const reach = loadStdlib('ALGO');
-reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
+reach.setWalletFallback(reach.walletFallback( { providerEnv: 'MainNet', MyAlgoConnect } ));
 const { standardUnit } = reach;
 const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
 
