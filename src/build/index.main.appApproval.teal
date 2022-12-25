@@ -1,0 +1,628 @@
+#pragma version 8
+// resource: R_Txn
+txn ApplicationID
+bz alloc
+byte base64()
+app_global_get
+dup
+int 0
+extract_uint64
+store 1 // GV_currentStep :: UInt
+int 8
+extract_uint64
+store 2 // GV_currentTime :: UInt
+byte base64(AA==)
+app_global_get
+preamble:
+pushbytess base64(dQ7kBg==) base64(jECAug==) base64(mUBBBg==) base64(pHE8lg==) base64(39kjKA==) base64(+NiPIw==)
+txna ApplicationArgs 0
+match _reachp_2 _reachp_6 _reachp_5 _reachp_0 _reachp_1 _reachp_4
+errl:
+err
+_reachi_0:
+txn Sender
+store 21 // Alice/198
+load 12 // v434
+int 0
+extract_uint64
+store 13 // v433
+load 12 // v434
+int 8
+extract_uint64
+store 20 // wager/199
+load 12 // v434
+int 16
+extract_uint64
+store 11 // deadline/200
+byte base64(93ETTQ==)
+load 13 // v433
+itob
+concat
+load 20 // wager/199
+itob
+concat
+load 11 // deadline/200
+itob
+concat
+log // up to 28 bytes
+// ^ log: "_reach_e0" [v433,wager/199,deadline/200] "_reach_e0(uint64,uint64,uint64)"
+load 13 // v433
+callsub l2_LF_timeCheck
+load 20 // wager/199
+callsub l3_LF_checkTxn_False
+// ^ CheckPay
+// at ./index.rsh:92:9:dot
+global Round
+load 11 // deadline/200
++
+store 13 // v211
+l4_LF_svsDump_1:
+load 21 // Alice/198
+load 20 // wager/199
+itob
+concat
+load 13 // v211
+itob
+concat
+int 64
+bzero
+concat
+int 1
+global Round
+updateStateNoOp:
+store 2 // GV_currentTime :: UInt
+store 1 // GV_currentStep :: UInt
+byte base64(AA==)
+swap
+extract 0 112
+app_global_put
+byte base64()
+load 1 // GV_currentStep :: UInt
+itob
+load 2 // GV_currentTime :: UInt
+itob
+concat
+app_global_put
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+callsub l16_LF_updateMbr
+updateState:
+load 3 // GV_wasntMeth :: Bool
+bnz done
+apiReturn_noCheck:
+byte base64(FR98dQ==)
+load 4 // GV_apiRet :: Null
+concat
+log // up to 4 bytes
+done:
+int 1
+return
+_reachi_1:
+txn Sender
+store 19 // Bob/216
+int 1
+load 1 // GV_currentStep :: UInt
+==
+assert
+callsub l5_LF_svsLoad_1
+load 11 // v437
+btoi
+store 12 // v436
+byte base64(1RUZFA==)
+load 12 // v436
+itob
+concat
+log // up to 12 bytes
+// ^ log: "_reach_e1" [v436] "_reach_e1(uint64)"
+load 12 // v436
+callsub l2_LF_timeCheck
+global Round
+load 13 // v211
+<
+assert
+load 20 // wager/199
+callsub l3_LF_checkTxn_False
+// ^ CheckPay
+// at ./index.rsh:102:7:dot
+int 0
+int 0
+int 0
+global Round
+store 15 // thisConsensusTime/225
+store 16 // totalTimeBob/224
+store 17 // totalTimeAlice/223
+store 18 // stage/222
+_reachl_3:
+load 18 // stage/222
+int 3
+<
+bz l12_ifF
+l13_LF_svsDump_7:
+load 21 // Alice/198
+load 20 // wager/199
+itob
+concat
+load 19 // Bob/216
+concat
+load 18 // stage/222
+itob
+concat
+load 17 // totalTimeAlice/223
+itob
+concat
+load 16 // totalTimeBob/224
+itob
+concat
+int 16
+bzero
+concat
+int 7
+global Round
+b updateStateNoOp
+_reachi_2:
+int 1
+load 1 // GV_currentStep :: UInt
+==
+assert
+callsub l5_LF_svsLoad_1
+load 11 // v440
+btoi
+store 12 // v439
+byte base64(l073Fw==)
+load 12 // v439
+itob
+concat
+log // up to 12 bytes
+// ^ log: "_reach_e2" [v439] "_reach_e2(uint64)"
+load 12 // v439
+callsub l2_LF_timeCheck
+global Round
+load 13 // v211
+>=
+assert
+load 20 // wager/199
+// resource: R_Account
+load 21 // Alice/198
+callsub l6_LF_makeTxn_False_False_False_True
+updateStateHalt:
+txn OnCompletion
+int DeleteApplication
+==
+assert
+// checked on completion
+callsub l16_LF_updateMbr
+// resource: R_Account
+int 0
+global CurrentApplicationAddress
+global CreatorAddress
+callsub l17_LF_makeTxn_False_True_False_True
+b updateState
+_reachi_4:
+int 7
+load 1 // GV_currentStep :: UInt
+==
+assert
+l7_LF_svsLoad_7:
+dup
+extract 0 32
+store 21 // Alice/198
+dup
+int 32
+extract_uint64
+store 20 // wager/199
+dup
+extract 40 32
+store 19 // Bob/216
+dup
+int 72
+extract_uint64
+store 18 // stage/222
+dup
+int 80
+extract_uint64
+store 17 // totalTimeAlice/223
+int 88
+extract_uint64
+store 16 // totalTimeBob/224
+load 11 // v443
+int 0
+extract_uint64
+store 12 // v442
+load 11 // v443
+int 8
+extract_uint64
+store 14 // timeBob/246
+byte base64(EEatcw==)
+load 12 // v442
+itob
+concat
+load 14 // timeBob/246
+itob
+concat
+log // up to 20 bytes
+// ^ log: "_reach_e4" [v442,timeBob/246] "_reach_e4(uint64,uint64)"
+load 12 // v442
+callsub l2_LF_timeCheck
+load 19 // Bob/216
+txn Sender
+==
+assert
+// ^ Claim: sender correct
+// at ./index.rsh:119:9:dot
+l8_LF_svsDump_8:
+load 21 // Alice/198
+load 20 // wager/199
+itob
+concat
+load 19 // Bob/216
+concat
+load 18 // stage/222
+itob
+concat
+load 17 // totalTimeAlice/223
+itob
+concat
+load 16 // totalTimeBob/224
+itob
+concat
+load 14 // timeBob/246
+itob
+concat
+int 8
+bzero
+concat
+int 8
+global Round
+b updateStateNoOp
+_reachi_5:
+int 8
+load 1 // GV_currentStep :: UInt
+==
+assert
+l9_LF_svsLoad_8:
+dup
+extract 0 32
+store 21 // Alice/198
+dup
+int 32
+extract_uint64
+store 20 // wager/199
+dup
+extract 40 32
+store 19 // Bob/216
+dup
+int 72
+extract_uint64
+store 18 // stage/222
+dup
+int 80
+extract_uint64
+store 17 // totalTimeAlice/223
+dup
+int 88
+extract_uint64
+store 16 // totalTimeBob/224
+int 96
+extract_uint64
+store 14 // timeBob/246
+load 11 // v446
+int 0
+extract_uint64
+store 12 // v445
+load 11 // v446
+int 8
+extract_uint64
+store 13 // timeAlice/254
+byte base64(s1H3jw==)
+load 12 // v445
+itob
+concat
+load 13 // timeAlice/254
+itob
+concat
+log // up to 20 bytes
+// ^ log: "_reach_e5" [v445,timeAlice/254] "_reach_e5(uint64,uint64)"
+load 12 // v445
+callsub l2_LF_timeCheck
+load 21 // Alice/198
+txn Sender
+==
+assert
+// ^ Claim: sender correct
+// at ./index.rsh:127:11:dot
+l10_LF_svsDump_9:
+load 21 // Alice/198
+load 20 // wager/199
+itob
+concat
+load 19 // Bob/216
+concat
+load 18 // stage/222
+itob
+concat
+load 17 // totalTimeAlice/223
+itob
+concat
+load 16 // totalTimeBob/224
+itob
+concat
+load 14 // timeBob/246
+itob
+concat
+load 13 // timeAlice/254
+itob
+concat
+int 9
+global Round
+b updateStateNoOp
+_reachi_6:
+int 9
+load 1 // GV_currentStep :: UInt
+==
+assert
+l11_LF_svsLoad_9:
+dup
+extract 0 32
+store 21 // Alice/198
+dup
+int 32
+extract_uint64
+store 20 // wager/199
+dup
+extract 40 32
+store 19 // Bob/216
+dup
+int 72
+extract_uint64
+store 18 // stage/222
+dup
+int 80
+extract_uint64
+store 17 // totalTimeAlice/223
+dup
+int 88
+extract_uint64
+store 16 // totalTimeBob/224
+dup
+int 96
+extract_uint64
+store 14 // timeBob/246
+int 104
+extract_uint64
+store 13 // timeAlice/254
+load 11 // v449
+btoi
+store 12 // v448
+byte base64(cO3veg==)
+load 12 // v448
+itob
+concat
+log // up to 12 bytes
+// ^ log: "_reach_e6" [v448] "_reach_e6(uint64)"
+load 12 // v448
+callsub l2_LF_timeCheck
+load 19 // Bob/216
+txn Sender
+==
+assert
+// ^ Claim: sender correct
+// at ./index.rsh:133:9:dot
+load 18 // stage/222
+int 1
++
+load 17 // totalTimeAlice/223
+load 13 // timeAlice/254
++
+load 16 // totalTimeBob/224
+load 14 // timeBob/246
++
+global Round
+store 15 // thisConsensusTime/225
+store 16 // totalTimeBob/224
+store 17 // totalTimeAlice/223
+store 18 // stage/222
+b _reachl_3
+_reachp_0:
+callsub l0_LF_wasntMeth
+int 100000
+l1_LF_mbrAdd:
+load 6 // GV_mbrAdd :: UInt
++
+store 6 // GV_mbrAdd :: UInt
+txna ApplicationArgs 1
+store 12 // v434
+b _reachi_0
+_reachp_1:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v437
+b _reachi_1
+_reachp_2:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v440
+b _reachi_2
+_reachp_4:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v443
+b _reachi_4
+_reachp_5:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v446
+b _reachi_5
+_reachp_6:
+callsub l0_LF_wasntMeth
+txna ApplicationArgs 1
+store 11 // v449
+b _reachi_6
+alloc:
+int 0
+txn GlobalNumUint
+==
+assert
+int 2
+txn GlobalNumByteSlice
+==
+assert
+int 0
+txn LocalNumUint
+==
+assert
+int 0
+txn LocalNumByteSlice
+==
+assert
+callsub l0_LF_wasntMeth
+int 112
+bzero
+int 0
+int 0
+b updateStateNoOp
+apiReturn_check:
+txn OnCompletion
+int NoOp
+==
+assert
+// checked on completion
+b apiReturn_noCheck
+l12_ifF:
+int 2
+int 0
+load 17 // totalTimeAlice/223
+load 16 // totalTimeBob/224
+>
+select
+int 1
+load 17 // totalTimeAlice/223
+load 16 // totalTimeBob/224
+==
+select
+dup
+store 11 // outcome/267
+int 1
+==
+bz l14_ifF
+load 20 // wager/199
+// resource: R_Account
+load 21 // Alice/198
+callsub l6_LF_makeTxn_False_False_False_True
+load 20 // wager/199
+// resource: R_Account
+load 19 // Bob/216
+callsub l6_LF_makeTxn_False_False_False_True
+b updateStateHalt
+l14_ifF:
+load 11 // outcome/267
+int 2
+==
+bz l15_ifF
+int 2
+load 20 // wager/199
+*
+// resource: R_Account
+load 21 // Alice/198
+callsub l6_LF_makeTxn_False_False_False_True
+b updateStateHalt
+l15_ifF:
+int 2
+load 20 // wager/199
+*
+// resource: R_Account
+load 19 // Bob/216
+callsub l6_LF_makeTxn_False_False_False_True
+b updateStateHalt
+l18_LF_makeTxnK_False_True:
+int 0
+itxn_field Fee
+int pay
+itxn_field TypeEnum
+itxn_field Receiver
+itxn_field Amount
+itxn_submit
+retsub
+updateMbr_eq:
+pop
+retsub
+updateMbr_neg:
+swap
+-
+dup
+store 6 // GV_mbrAdd :: UInt
+global CreatorAddress
+callsub l6_LF_makeTxn_False_False_False_True
+retsub
+updateMbr_pos_eq:
+-
+dup
+bz updateMbr_eq
+dup
+store 6 // GV_mbrAdd :: UInt
+callsub l3_LF_checkTxn_False
+retsub
+l0_LF_wasntMeth:
+int 1
+store 3 // GV_wasntMeth :: Bool
+retsub
+l6_LF_makeTxn_False_False_False_True:
+itxn_begin
+b l18_LF_makeTxnK_False_True
+l2_LF_timeCheck:
+dup
+int 0
+==
+swap
+load 2 // GV_currentTime :: UInt
+==
+||
+assert
+retsub
+l3_LF_checkTxn_False:
+// resource: R_Txn
+txn GroupIndex
+load 0 // GV_txnCounter :: UInt
+int 1
++
+dup
+store 0 // GV_txnCounter :: UInt
+-
+dupn 2
+gtxns Receiver
+global CurrentApplicationAddress
+==
+assert
+gtxns TypeEnum
+int pay
+==
+assert
+gtxns Amount
+==
+assert
+retsub
+l5_LF_svsLoad_1:
+dup
+extract 0 32
+store 21 // Alice/198
+dup
+int 32
+extract_uint64
+store 20 // wager/199
+int 40
+extract_uint64
+store 13 // v211
+retsub
+l16_LF_updateMbr:
+load 6 // GV_mbrAdd :: UInt
+load 7 // GV_mbrSub :: UInt
+dup2
+>=
+bz updateMbr_neg
+b updateMbr_pos_eq
+l17_LF_makeTxn_False_True_False_True:
+itxn_begin
+itxn_field CloseRemainderTo
+b l18_LF_makeTxnK_False_True

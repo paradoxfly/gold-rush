@@ -54,6 +54,7 @@
 .error{
   color: rgb(250, 197, 21);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 8px;
 }
 
 .error-box{

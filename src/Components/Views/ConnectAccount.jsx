@@ -4,7 +4,7 @@ import './index.css'
 
 export default function ConnectAccount({connect}){
   const [secret, setSecret] = useState('')
-  const [ error, setError ] = useState(false)
+  const [ error, setError ] = useState('')
   const [loading, setLoading] = useState(false)
   // connect()
   return(
@@ -18,24 +18,27 @@ export default function ConnectAccount({connect}){
       <h3>OR</h3>
       <div className='mnemonic'>
         <span>Import Account By Mnemonic Key</span><br/>
-        {
-          error && <small className='error'>Invalid mnemonic key</small>
-        }
         <br/>
         <textarea
           name='secret' 
-          className={`ContractInfo ${error ? "error-box": ''}`}
+          className={`${error ? "error-box": ''}`}
           onChange={(event) => {
             setSecret(event.target.value)
           }}
           placeholder='Paste mnemonic key'
-        /><br/>
+        />
+        <br />
+        {
+          error && <small className='error'>{error}</small>
+        }
+        <br/>
+
         <button onClick={ async e => {
           setLoading(true)
           const con = await connect(secret.trim(), true)
-          if(con === 'failed'){
+          if(con !== 'success'){
             setLoading(false)
-            setError(true)
+            setError(con)
           }
         }}>Connect To Account</button>
       </div>    

@@ -13,7 +13,7 @@ import Deploy from './Components/Views/Deployer';
 //Reach
 import * as backend from './build/index.main.mjs'
 import {loadStdlib} from '@reach-sh/stdlib';
-import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
+import MyAlgoConnect from '@randlabs/myalgo-connect'
 
 const reach = loadStdlib('ALGO');
 reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
@@ -42,7 +42,7 @@ function App(){
         }
         result = 'success'
       } catch (error) {
-        result = 'failed'
+        result = error.message
       }
       return result
     },
