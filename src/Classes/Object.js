@@ -1,5 +1,4 @@
 import { generateSurface } from "../utils/surfaceFunctions"
-import { drawRect, clearRect } from "../redux/utils/draw"
 import { overlap } from "../utils/surfaceFunctions"
 
 export default class Object{
@@ -26,12 +25,12 @@ export default class Object{
 	draw(){
 		this.x = this.defaultX
 		this.y = this.defaultY
-		drawRect(this.x, this.y, this.width, this.height, this.color, this.dispatch)
+		this.dispatch.drawRectangle(this.x, this.y, this.width, this.height, this.color)
 		this.surface = generateSurface(this.x, this.y, this.width, this.height)
 	}
 
 	clear(){
-		clearRect(this.x, this.y, this.width, this.height, this.dispatch)
+		this.dispatch.clearRectangle(this.x, this.y, this.width, this.height)
 		this.surface = []
 	}
 
@@ -52,10 +51,10 @@ export default class Object{
 	}
 
 	move(x, y){				
-			clearRect(this.x, this.y, this.width, this.height, this.dispatch)
+			this.dispatch.clearRectangle(this.x, this.y, this.width, this.height)
 			this.x = x
 			this.y = y
-			drawRect(this.x, this.y, this.width, this.height, this.color, this.dispatch)
+			this.dispatch.drawRectangle(this.x, this.y, this.width, this.height, this.color)
 			this.setSurface(this.x, this.y)  //x and y are new coordinates
 	}
   

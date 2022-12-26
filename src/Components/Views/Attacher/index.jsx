@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAction } from '../../../redux/slices/action.slice';
 import { Views } from '../../../utils/constants';
 import Canvas from '../../Canvas/Canvas';
 import Attacher from '../../../Classes/Attacher';
@@ -14,13 +12,24 @@ import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
-import { updateScore } from '../../../redux/utils/scores';
-
+import { useRecoilState } from "recoil";
+import { rectangle } from '../../../recoil/state';
+import { RectActions } from '../../../recoil/action/rectangle.action';
+import { TimeActions } from '../../../recoil/action/time.action';
+import { ScoreActions } from '../../../recoil/action/scores.action';
 
 export default function Attach(props){
-  const dispatch = useDispatch()
+  const rectActions = RectActions()
+  const timeActions = TimeActions()
+  const scoreActions = ScoreActions()
+  const dispatch = {
+    ...rectActions,
+    ...timeActions,
+    ...scoreActions
+  }
+  const [ rect ] = useRecoilState(rectangle)
+
   const { utils, reach, standardUnit } = props
-  const action = useSelector(selectAction).action
   const [view, setView] = useState(Views.ATTACH)
   const [wager, setWager ] = useState(0)
   const [resolver, setResolver] = useState({})
@@ -108,7 +117,7 @@ export default function Attach(props){
         view === Views.PLAY_TURN ?
         <>
           <ScoreBoard round={round}/>
-          <Canvas action = { action }/>
+          <Canvas rectangle={rect}/>
 
           <button 
             disabled = {!play}
@@ -119,7 +128,7 @@ export default function Attach(props){
               setTime(result)
               setHasPlayed(true)
               setView(Views.AWAITING_TURN)
-              updateScore('you', round, result, dispatch)
+              dispatch.updateScore('you', round, result)
           } }>
             Start Game
           </button>

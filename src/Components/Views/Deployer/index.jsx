@@ -6,27 +6,37 @@ import ScoreBoard from '../../ScoreBoard/ScoreBoard';
 import ShowWinner from '../Common/ShowWinner';
 import Loader from "../../Loader/Loader";
 import Timeout from '../Common/Timeout';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectAction } from '../../../redux/slices/action.slice';
 import '../index.css'
 import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
-import { updateScore } from '../../../redux/utils/scores';
+import { useRecoilState } from "recoil";
+import { rectangle } from '../../../recoil/state';
+import { RectActions } from '../../../recoil/action/rectangle.action';
+import { TimeActions } from '../../../recoil/action/time.action';
+import { ScoreActions } from '../../../recoil/action/scores.action';
 
 export default function Deploy(props){
-  const dispatch = useDispatch()
+  const rectActions = RectActions()
+  const timeActions = TimeActions()
+  const scoreActions = ScoreActions()
+  const dispatch = {
+    ...rectActions,
+    ...timeActions,
+    ...scoreActions
+  }
+
   const { utils, reach, defaultWager } = props
-  const [ view, setView ] = useState(Views.DEPLOY)
+  const [ view, setView ] = useState(Views.DEPLOY) //should be DEPLOY
   const [ ctcInfo, setCtcInfo ] = useState({})
   const [ wager, setWager ] = useState(defaultWager)
   const [resolver, setResolver] = useState({})
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const action = useSelector(selectAction).action
+  const [ rect ] = useRecoilState(rectangle)
 
-  const [ round, setRound ] = useState(-1)
+  const [ round, setRound ] = useState(-1) //should be -1
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)
@@ -118,7 +128,7 @@ export default function Deploy(props){
         view === Views.PLAY_TURN ?
         <>
           <ScoreBoard round={round}/>
-          <Canvas action = { action }/>
+          <Canvas rectangle={rect}/>
 
           <button 
             disabled = {!play}
@@ -129,7 +139,7 @@ export default function Deploy(props){
               setTime(result)
               setHasPlayed(true)
               setView(Views.AWAITING_TURN)
-              updateScore('you', round, result, dispatch)
+              dispatch.updateScore('you', round, result)
           } }>
             Start Game
           </button>

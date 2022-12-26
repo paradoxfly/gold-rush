@@ -1,4 +1,3 @@
-import { drawRect} from "../redux/utils/draw"
 import { overlap } from "../utils/surfaceFunctions"
 import Object from "./Object"
 
@@ -38,10 +37,10 @@ export default class Player extends Object{     //Default starting coordinates (
 		setInterval(() => {
 			if(n > 2){
 				if (n%2 === 0){
-					drawRect(this.x, this.y, this.width, this.height, "red", this.dispatch)
+					this.dispatch.drawRectangle(this.x, this.y, this.width, this.height, "red", this.dispatch)
 				}
 				else {
-					drawRect(this.x, this.y, this.width, this.height, this.color, this.dispatch)
+					this.dispatch.drawRectangle(this.x, this.y, this.width, this.height, this.color, this.dispatch)
 				}
 			}
 			else{

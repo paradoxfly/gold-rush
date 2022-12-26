@@ -1,12 +1,14 @@
 import React from 'react';
 import './index.css';
-import { selectScore } from '../../redux/slices/scores.slice';
-import { useSelector } from 'react-redux';
-import { selectTime } from '../../redux/slices/time.slice';
+import { useRecoilState } from 'recoil';
+import { score, time as recoilTime } from '../../recoil/state';
 
 export default function ScoreBoard({round, showTotal}){
-  const { you, them } = useSelector( selectScore )
-  const time =  useSelector( selectTime )
+  const [ _time ] = useRecoilState(recoilTime)
+  const [ _score ] = useRecoilState(score)
+
+  const { you, them } = _score
+  const { time } = _time
   return(
     <div className='wrapper'>
       {/* <div className='header'>

@@ -1,5 +1,4 @@
 import { Views } from "../utils/constants";
-import { updateScore } from "../redux/utils/scores";
 
 export default class Participant{
   constructor(reach, setFunctions, dispatch){
@@ -21,7 +20,7 @@ export default class Participant{
       })
       this.utils.setGetTime(true)
     })
-    updateScore('you', this.round, time, this.dispatch)
+    this.dispatch.updateScore('you', this.round, time)
     return time;
   }
 
@@ -29,7 +28,7 @@ export default class Participant{
     //logic for opponent replay or view time it took opponent
     console.log('opponent time: ' + time)
     const timeDecimal = parseInt(time)
-    updateScore('them', this.opponentRound, timeDecimal, this.dispatch)
+    this.dispatch.updateScore('them', this.opponentRound, timeDecimal)
     this.opponentRound++
     // this.utils.setView(Views.OPPONENT_REPLAY)
     // this.utils.setOpponentTime(time)

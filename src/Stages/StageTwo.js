@@ -1,5 +1,4 @@
 import { generateSurface } from "../utils/surfaceFunctions"
-import { drawStage, clearCanvas } from "../redux/utils/draw"
 
 export default class StageTwo{					//Contains information about Stage One
 	constructor(dispatch){
@@ -32,7 +31,7 @@ export default class StageTwo{					//Contains information about Stage One
 		}
 	}
 	drawStage(){
-		clearCanvas(this.dispatch)
+		this.dispatch.clearCanvas(this.dispatch)
 
 		for(let solid of this.content){
 			this.surface.push(generateSurface(...solid))
@@ -40,7 +39,7 @@ export default class StageTwo{					//Contains information about Stage One
 
 		this.content.push(this.lavaContent)
 		setTimeout(() => {
-			drawStage(this.content, this.dispatch)
+			this.dispatch.drawStageArea(this.content)
 		}, 200);
 	}
 }
