@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { Constants, RECTANGLE_ACTIONS } from '../../utils/constants'
 import './canvas.css'
 
-export default function Canvas ({rectangle}){
+export default function Canvas ({rectangle, lava}){
   const canvasRef = useRef(null)
   // console.log(rectangle)
 
@@ -49,6 +49,12 @@ export default function Canvas ({rectangle}){
     const context = canvas.getContext('2d')
     draw(rectangle, context)
   }, [rectangle])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d')
+    draw(lava, context)
+  })
   
   return (
     <div>
