@@ -32,7 +32,7 @@ export default function Deploy(props){
   }
 
   const { utils, reach, defaultWager } = props
-  const [ view, setView ] = useState(Views.PLAY_TURN) //should be DEPLOY
+  const [ view, setView ] = useState(Views.DEPLOY) //should be DEPLOY
   const [ ctcInfo, setCtcInfo ] = useState({})
   const [ wager, setWager ] = useState(defaultWager)
   const [resolver, setResolver] = useState({})
@@ -41,7 +41,7 @@ export default function Deploy(props){
   const [ rect ] = useRecoilState(rectangle)
   const [ lavaState ] = useRecoilState(lava)
 
-  const [ round, setRound ] = useState(0) //should be -1
+  const [ round, setRound ] = useState(-1) //should be -1
   const [ play, setPlay ] = useState(true)
   const [ hasPlayed, setHasPlayed ] = useState(false)
   const [ getTime, setGetTime ] = useState(false)

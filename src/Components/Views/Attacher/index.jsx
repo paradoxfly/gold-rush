@@ -13,21 +13,25 @@ import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
 import { useRecoilState } from "recoil";
-import { rectangle } from '../../../recoil/state';
+import { lava, rectangle } from '../../../recoil/state';
 import { RectActions } from '../../../recoil/action/rectangle.action';
 import { TimeActions } from '../../../recoil/action/time.action';
 import { ScoreActions } from '../../../recoil/action/scores.action';
+import { LavaActions } from '../../../recoil/action';
 
 export default function Attach(props){
   const rectActions = RectActions()
   const timeActions = TimeActions()
   const scoreActions = ScoreActions()
+  const lavaActions = LavaActions()
   const dispatch = {
     ...rectActions,
     ...timeActions,
-    ...scoreActions
+    ...scoreActions,
+    lavaActions
   }
   const [ rect ] = useRecoilState(rectangle)
+  const [ lavaState ] = useRecoilState(lava)
 
   const { utils, reach, standardUnit } = props
   const [view, setView] = useState(Views.ATTACH)
@@ -117,7 +121,7 @@ export default function Attach(props){
         view === Views.PLAY_TURN ?
         <>
           <ScoreBoard round={round}/>
-          <Canvas rectangle={rect}/>
+          <Canvas rectangle={rect} lava={lavaState}/>
 
           <button 
             disabled = {!play}

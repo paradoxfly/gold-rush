@@ -4,7 +4,7 @@ import { score } from "../state"
 
 
 export const ScoreActions = () => {
-    const [ _score, setScore] = useRecoilState(score)
+    const [ _, setScore] = useRecoilState(score)
 
     /**
      * 
@@ -14,11 +14,26 @@ export const ScoreActions = () => {
      * @returns null
      */
     const updateScore = useCallback((who, round, score_) => {
-        setScore({
-            ..._score,
-            [who]: _score[who].splice(round, 1, score_)
+        console.log(who)
+        console.log(round)
+        console.log(score_)
+        setScore(_score => {
+            const whoScores = [ ..._score[who]]
+            for(let i = 0; i < whoScores.length; i++){
+                if(i === round ){
+                    whoScores[i] = score_;
+                    continue;
+                }
+                whoScores[i] = _score[i]
+            } 
+            const newScore = {
+                ..._score,
+                [who]: whoScores
+            }
+            console.log(newScore)
+            return newScore
         })
-    }, [_score, setScore])
+    }, [setScore])
 
     return {
         updateScore

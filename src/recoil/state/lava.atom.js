@@ -2,7 +2,7 @@ import { atom } from "recoil";
 import { RECTANGLE_ACTIONS } from "../../utils/constants";
 
 export const lava = atom({
-    key: 'rectangle',
+    key: 'lava',
     default: {
         x: 0,
         y: 0,

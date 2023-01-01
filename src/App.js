@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Views } from './utils/constants';
 import './App.css';
 
@@ -20,8 +20,10 @@ reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoCo
 const { standardUnit } = reach;
 const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
 
+// localStorage.clear()
+
 function App(){
-  const [ view, setView ] = useState(Views.DEPLOY)
+  const [ view, setView ] = useState(Views.CONNECT_ACCOUNT)
   const [ account, setAccount ] = useState({})
   const [ balance, setBalance ] = useState(0)
 
@@ -31,8 +33,11 @@ function App(){
       let result = ""
       try {
         const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
+        localStorage.setItem('connected', 'yes')
+        localStorage.setItem('account', JSON.stringify(account.networkAccount))
         const balanceAtomic = await reach.balanceOf(account);
         const balance = reach.formatCurrency(balanceAtomic, 4);
+        console.log(account)
         setAccount(account);
         setBalance(balance)
         if (await reach.canFundFromFaucet()) {
@@ -81,6 +86,18 @@ function App(){
       return JSON.stringify(await ctc.getInfo(), null, 2);
     }
   }
+
+  useEffect(() => {
+    const connected = localStorage.getItem('connected')
+    if(connected === 'yes'){
+      reach.connectAccount(JSON.parse(localStorage.getItem(('account'))))
+        .then(acc => {
+          console.log(acc)
+          setAccount(acc)
+        })
+      setView(Views.DEPLOYER_OR_ATTACHER)
+    }
+  }, [])
 
   return (
     <div className="App">
