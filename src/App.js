@@ -32,16 +32,21 @@ function App(){
   const [ address, setAddress ] = useState('')
 
   const connectAccount = async () => {
-    setConnecting(true)
-    const account = await reach.getDefaultAccount();
-    localStorage.setItem('connected', 'yes')
-    localStorage.setItem('account', JSON.stringify(account.networkAccount))
-    const balanceAtomic = await reach.balanceOf(account);
-    const balance = reach.formatCurrency(balanceAtomic, 4);
-    setAddress(account.networkAccount.addr)
-    setAccount(account);
-    setBalance(balance);
-    setConnecting(false)
+    try {
+      setConnecting(true)
+      const account = await reach.getDefaultAccount();
+      localStorage.setItem('connected', 'yes')
+      localStorage.setItem('account', JSON.stringify(account.networkAccount))
+      const balanceAtomic = await reach.balanceOf(account);
+      const balance = reach.formatCurrency(balanceAtomic, 4);
+      setAddress(account.networkAccount.addr)
+      setAccount(account);
+      setBalance(balance);
+      setConnecting(false)
+    } catch (error) {
+      console.log(error)
+      setConnecting(false)
+    }
   }
 
   const selectDeployer =  async () => {
