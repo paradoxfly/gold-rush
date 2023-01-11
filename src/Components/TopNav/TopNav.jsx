@@ -1,12 +1,42 @@
 import React from 'react'
 import './topnav.css'
 import { GiGoldStack, GiGoldBar } from 'react-icons/gi'
-export default function TopNav(){
+import { ImSpinner8 } from 'react-icons/im'
+export default function TopNav({address, connect, canConnect, connecting}){
+  const handleConnect = () => {
+    if(canConnect){
+      connect()
+    }
+  }
   return(
     <div className = 'nav'>
-      <h1>
+      <div className='logo'>
         <GiGoldStack /> Gold Rush  <GiGoldBar />
-      </h1>
+      </div>
+      <div className='address-div'>
+        <button onClick={handleConnect}>
+          {/* <FaWallet /> */}
+          <img 
+            src='/myalgo-logo.png'
+            alt=''
+          />
+          <div title={ address ? `Click to switch wallet` : ''} className='address'>
+            { 
+              connecting ? 
+                'Connect Wallet'
+                :
+              address ? 
+                address
+                :
+                'Connect Wallet'
+            }
+          </div>
+          {
+            connecting && 
+            <ImSpinner8 className='spinner'/>
+          }
+        </button>
+      </div>
     </div>
   )
 }

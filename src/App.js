@@ -4,7 +4,6 @@ import './App.css';
 
 //Components or Views
 import TopNav from './Components/TopNav/TopNav';
-import ConnectAccount from './Components/Views/ConnectAccount';
 import FundAccount from './Components/Views/FundAccount';
 import DeployerOrAttacher from './Components/Views/DeployerOrAttacher';
 import Attach from './Components/Views/Attacher';
@@ -14,6 +13,8 @@ import Deploy from './Components/Views/Deployer';
 import * as backend from './build/index.main.mjs'
 import {loadStdlib} from '@reach-sh/stdlib';
 import MyAlgoConnect from '@randlabs/myalgo-connect'
+import { useRecoilState } from 'recoil';
+import { connect, connecting as connectLoader } from './recoil/state';
 
 const reach = loadStdlib('ALGO');
 reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
@@ -23,91 +24,71 @@ const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
 // localStorage.clear()
 
 function App(){
-  const [ view, setView ] = useState(Views.CONNECT_ACCOUNT)
+  const [ view, setView ] = useState(Views.DEPLOYER_OR_ATTACHER)
+  const [canConnect, setCanConnect] = useRecoilState(connect)
+  const [connecting, setConnecting] = useRecoilState(connectLoader)
   const [ account, setAccount ] = useState({})
   const [ balance, setBalance ] = useState(0)
+  const [ address, setAddress ] = useState('')
 
-  const utils = {
-
-    connectAccount: async (secret, mnemonic = false) => {
-      let result = ""
-      try {
-        const account = mnemonic ? await reach.newAccountFromMnemonic(secret) : await reach.getDefaultAccount();
-        localStorage.setItem('connected', 'yes')
-        localStorage.setItem('account', JSON.stringify(account.networkAccount))
-        const balanceAtomic = await reach.balanceOf(account);
-        const balance = reach.formatCurrency(balanceAtomic, 4);
-        console.log(account)
-        setAccount(account);
-        setBalance(balance)
-        if (await reach.canFundFromFaucet()) {
-          setView(Views.FUND_ACCOUNT)
-        } else {
-          setView(Views.DEPLOYER_OR_ATTACHER)
-        }
-        result = 'success'
-      } catch (error) {
-        result = error.message
-      }
-      return result
-    },
-
-    fundAccount: async (fundAmount) => {
-      await reach.fundFromFaucet(account, reach.parseCurrency(fundAmount));
-      setView(Views.DEPLOYER_OR_ATTACHER)
-    },
-
-    skipFundAccount: async () => {
-      setView(Views.DEPLOYER_OR_ATTACHER)
-    },
-
-    selectDeployer: async () => {
-      setView(Views.DEPLOY)
-    },
-
-    selectAttacher: async () => {
-      setView(Views.ATTACH)
-    },
-
-    playAgain: async () => {
-      setView(Views.DEPLOYER_OR_ATTACHER)
-    },
-
-    attach: (ctcInfoStr, attacher) => {
-      const ctc = account.contract(backend, JSON.parse(ctcInfoStr));
-      backend.Bob(ctc, attacher);
-    },
-    
-    deploy: async (deployer, wager) => {
-      const ctc = account.contract(backend);
-      const deadline = {ETH: 10, ALGO: 100, CFX: 1000}[reach.connector];
-      deployer.setWagerAndDeadline(reach.parseCurrency(wager), deadline)
-      backend.Alice(ctc, deployer)
-      return JSON.stringify(await ctc.getInfo(), null, 2);
-    }
+  const connectAccount = async () => {
+    setConnecting(true)
+    const account = await reach.getDefaultAccount();
+    localStorage.setItem('connected', 'yes')
+    localStorage.setItem('account', JSON.stringify(account.networkAccount))
+    const balanceAtomic = await reach.balanceOf(account);
+    const balance = reach.formatCurrency(balanceAtomic, 4);
+    setAddress(account.networkAccount.addr)
+    setAccount(account);
+    setBalance(balance);
+    setConnecting(false)
   }
+
+  const selectDeployer =  async () => {
+    await connectAccount()
+    setView(Views.DEPLOY)
+  }
+
+  const selectAttacher = async () => {
+    await connectAccount()
+    setView(Views.ATTACH)
+  }
+
+  const playAgain = async () => {
+    setView(Views.DEPLOYER_OR_ATTACHER)
+  }
+
+  const attach = (ctcInfoStr, attacher) => {
+    const ctc = account.contract(backend, JSON.parse(ctcInfoStr));
+    setCanConnect(false)
+    backend.Bob(ctc, attacher);
+  }
+  
+  const deploy = async (deployer, wager) => {
+    const ctc = account.contract(backend);
+    const deadline = {ETH: 10, ALGO: 100, CFX: 1000}[reach.connector];
+    deployer.setWagerAndDeadline(reach.parseCurrency(wager), deadline)
+    backend.Alice(ctc, deployer)
+    setCanConnect(false)
+    return JSON.stringify(await ctc.getInfo(), null, 2);
+  }
+
+  const utils = { connectAccount, selectDeployer, selectAttacher, playAgain,attach, deploy }
 
   useEffect(() => {
     const connected = localStorage.getItem('connected')
     if(connected === 'yes'){
       reach.connectAccount(JSON.parse(localStorage.getItem(('account'))))
         .then(acc => {
-          console.log(acc)
+          setAddress(acc.networkAccount.addr)
           setAccount(acc)
         })
-      setView(Views.DEPLOYER_OR_ATTACHER)
     }
   }, [])
 
   return (
     <div className="App">
-      <TopNav />
-
-      {
-        view === Views.CONNECT_ACCOUNT ? 
-        <ConnectAccount connect={utils.connectAccount}/>
-        : null
-      }
+      <TopNav connecting={connecting} address={address} connect={utils.connectAccount} canConnect={canConnect}/>
 
       {
         view === Views.FUND_ACCOUNT ?

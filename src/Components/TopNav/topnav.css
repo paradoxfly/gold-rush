@@ -1,11 +1,12 @@
 .nav{
   flex: content;
-  padding-top: .1em;
+  padding-top: .9em;
   padding-bottom: .1em;
   text-align: center;
+  position: relative;
 }
 
-.nav h1{
+.nav .logo{
   color: gold;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 52px;
@@ -16,13 +17,27 @@
   animation: fly 1.2s infinite;
 }
 
+.spinner{
+  animation: spin 0.4s infinite linear;
+  font-size: 16px;
+}
+
+@keyframes spin {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes fly {
   0% {
     transform:translateY(0px);
   }
   16% {
     transform:scale(95%);
-    transform: rotate(3deg);
+    /* transform: rotate(3deg); */
   }
   32%{
     transform: scale(90%);
@@ -35,10 +50,48 @@
   }
   80%{
     transform: scale(95%);
-    transform: rotate(-3deg);
+    /* transform: rotate(-3deg); */
   }
 
   100% {
     transform:translateY(0px);
   }
+}
+
+.address-div{
+  top: 1.2em;
+  left: 20px;
+  position: absolute;
+  align-items: center;
+}
+
+.address-div button{
+  background-color: white;
+  color: #000;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  gap: 5px;
+  padding: 1px 10px;
+  cursor: pointer;
+  align-items: center;
+  transition: 0.4s;
+}
+
+.address-div img{
+  width: 70px;
+}
+
+.address-div button:hover{
+  transform: scale(110%);
+}
+
+.address{
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
 }
