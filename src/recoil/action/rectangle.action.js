@@ -1,36 +1,31 @@
 import { useCallback } from "react";
-import { useRecoilState } from "recoil";
-import { Constants, RECTANGLE_ACTIONS } from "../../utils/constants";
-import { rectangle } from "../state";
+import { Constants } from "../../utils/constants";
 
 
-export const RectActions = () => {
-    const [ _, setRect ] = useRecoilState(rectangle);
-
+export const RectActions = ({ canvasRef }) => {
     const drawRectangle = useCallback((x, y, width, height, color) => {
-        const result = {
-            x: (x-1) * Constants.SCALE_FACTOR,
-            y: (y-1) * Constants.SCALE_FACTOR,
-            width: width * Constants.SCALE_FACTOR,
-            height: height * Constants.SCALE_FACTOR,
-            action: RECTANGLE_ACTIONS.DRAW_RECTANGLE,
-            color
-        }
-        
-        setRect(result)
-    }, [setRect])
+        const context = canvasRef.current.getContext('2d')
+        context.fillStyle = color;
+        context.fillRect(
+            (x-1) * Constants.SCALE_FACTOR,
+            (y-1) * Constants.SCALE_FACTOR,
+            width* Constants.SCALE_FACTOR,
+            height* Constants.SCALE_FACTOR
+        )
+    }, [canvasRef])
 
     const clearRectangle = useCallback((x, y, width, height) => {
-        setRect({
-            x: (x-1) * Constants.SCALE_FACTOR,
-            y: (y-1) * Constants.SCALE_FACTOR,
-            width: width * Constants.SCALE_FACTOR,
-            height: height * Constants.SCALE_FACTOR,
-            action: RECTANGLE_ACTIONS.CLEAR_RECTANGLE
-        })
-    }, [setRect])
+        const context = canvasRef.current.getContext('2d')
+        context.clearRect(
+            (x-1) * Constants.SCALE_FACTOR,
+            (y-1) * Constants.SCALE_FACTOR,
+            width* Constants.SCALE_FACTOR,
+            height* Constants.SCALE_FACTOR
+          )
+    }, [canvasRef])
 
     const drawStageArea = useCallback((payload) => {
+        const context = canvasRef.current.getContext('2d')
         const parsed = payload.map(array => {
             array[0] = (array[0] - 1) * Constants.SCALE_FACTOR
             array[1] = (array[1] - 1) * Constants.SCALE_FACTOR
@@ -38,17 +33,25 @@ export const RectActions = () => {
             array[3] = array[3] * Constants.SCALE_FACTOR
             return array
         })
-        setRect({
-            rectangles: [...parsed],
-            action: RECTANGLE_ACTIONS.DRAW_STAGE
-        })
-    }, [setRect])
+
+        for(let rect of parsed){
+            context.fillStyle = rect[4];
+            context.fillRect(
+              rect[0],
+              rect[1],
+              rect[2],
+              rect[3]
+            )
+          }
+    }, [canvasRef])
 
     const clearCanvas = useCallback(() => {
-        setRect({
-            action: RECTANGLE_ACTIONS.CLEAR_CANVAS
-        })
-    }, [setRect])
+        const context = canvasRef.current.getContext('2d')
+
+        let canvasWidth = Constants.CANVAS_WIDTH * Constants.SCALE_FACTOR
+        let canvasHeight = Constants.CANVAS_HEIGHT * Constants.SCALE_FACTOR
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+    }, [canvasRef])
 
     return {
         drawRectangle,

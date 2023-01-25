@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Views } from '../../../utils/constants';
 import Deployer from '../../../Classes/Deployer';
 import Canvas from '../../Canvas/Canvas';
@@ -11,24 +11,20 @@ import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
-import { useRecoilState } from "recoil";
-import { lava, rectangle } from '../../../recoil/state';
 import { RectActions } from '../../../recoil/action/rectangle.action';
 import { TimeActions } from '../../../recoil/action/time.action';
 import { ScoreActions } from '../../../recoil/action/scores.action';
-import { LavaActions } from '../../../recoil/action';
 
 export default function Deploy(props){
-  const rectActions = RectActions()
+  const canvasRef = useRef(null)
+  const rectActions = RectActions({ canvasRef })
   const timeActions = TimeActions()
   const scoreActions = ScoreActions()
-  const lavaActions = LavaActions()
 
   const dispatch = {
     ...rectActions,
     ...timeActions,
     ...scoreActions,
-    lavaActions
   }
 
   const { utils, reach, defaultWager } = props
@@ -38,8 +34,6 @@ export default function Deploy(props){
   const [resolver, setResolver] = useState({})
   const [ time, setTime ] = useState()
   const [ opponentTime, setOpponentTime ] = useState([])
-  const [ rect ] = useRecoilState(rectangle)
-  const [ lavaState ] = useRecoilState(lava)
 
   const [ round, setRound ] = useState(-1) //should be -1
   const [ play, setPlay ] = useState(true)
@@ -91,7 +85,7 @@ export default function Deploy(props){
             disabled={ ! (wager > 0) }
             onClick={ async () => {
               setView(Views.DEPLOYING)
-              const info = await utils.deploy(Alice, wager)
+              const info =  parseInt(await utils.deploy(Alice, wager)) 
               console.log(info)
               setCtcInfo(info)
               }}>
@@ -110,7 +104,7 @@ export default function Deploy(props){
         view === Views.WAITING_FOR_ATTACHER ?
         <div>
           <label>Contract Information</label><br/>
-          <textarea disabled value = {ctcInfo} className='high-index'/>
+          <div className='contract'>{ctcInfo}</div>
           <h3>WAIT FOR ATTACHER</h3>
         </div>
         
@@ -125,7 +119,7 @@ export default function Deploy(props){
 
       {
         view === Views.TIMEOUT ?
-        <Timeout>Timeout!! Took too long for Opponent to accept wager</Timeout>
+        <Timeout>Timeout!! <br/>Took too long for Opponent to accept wager</Timeout>
         : null
       }
 
@@ -133,7 +127,7 @@ export default function Deploy(props){
         view === Views.PLAY_TURN ?
         <>
           <ScoreBoard round={round}/>
-          <Canvas rectangle={rect} lava={lavaState}/>
+          <Canvas canvasRef={canvasRef}/>
 
           <button 
             disabled = {!play}

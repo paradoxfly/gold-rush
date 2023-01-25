@@ -14,28 +14,32 @@ export const ScoreActions = () => {
      * @returns null
      */
     const updateScore = useCallback((who, round, score_) => {
-        console.log(who)
-        console.log(round)
-        console.log(score_)
         setScore(_score => {
+            console.log(_score)
             const whoScores = [ ..._score[who]]
             for(let i = 0; i < whoScores.length; i++){
                 if(i === round ){
                     whoScores[i] = score_;
-                    continue;
+                    break;
                 }
-                whoScores[i] = _score[i]
             } 
             const newScore = {
                 ..._score,
                 [who]: whoScores
             }
-            console.log(newScore)
             return newScore
         })
     }, [setScore])
 
+    const resetScore = useCallback(() => {
+        setScore({
+            you: [0,0,0],
+            them: [0,0,0]
+        })
+    }, [setScore])
+
     return {
-        updateScore
+        updateScore,
+        resetScore
     }
 }

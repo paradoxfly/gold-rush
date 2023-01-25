@@ -31,7 +31,7 @@ export default function game(dispatch, stage, options){
     }
     const lavaArray = []
     for(let i of lava){
-      lavaArray.push(new Lava(dispatch.lavaActions, i.x, i.y, i.distance) )
+      lavaArray.push(new Lava(dispatch, i.x, i.y, i.distance) )
     } 
 
     //Allows stage to render before starting game

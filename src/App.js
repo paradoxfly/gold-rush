@@ -15,13 +15,12 @@ import {loadStdlib} from '@reach-sh/stdlib';
 import MyAlgoConnect from '@randlabs/myalgo-connect'
 import { useRecoilState } from 'recoil';
 import { connect, connecting as connectLoader } from './recoil/state';
+import { ScoreActions } from './recoil/action/scores.action';
 
 const reach = loadStdlib('ALGO');
 reach.setWalletFallback(reach.walletFallback( { providerEnv: 'TestNet', MyAlgoConnect } ));
 const { standardUnit } = reach;
 const defaults = { defaultFundAmt: '10', defaultWager: '3', standardUnit };
-
-// localStorage.clear()
 
 function App(){
   const [ view, setView ] = useState(Views.DEPLOYER_OR_ATTACHER)
@@ -30,6 +29,7 @@ function App(){
   const [ account, setAccount ] = useState({})
   const [ balance, setBalance ] = useState(0)
   const [ address, setAddress ] = useState('')
+  const { resetScore } = ScoreActions()
 
   const connectAccount = async () => {
     try {
@@ -50,16 +50,23 @@ function App(){
   }
 
   const selectDeployer =  async () => {
-    await connectAccount()
+    const connected = localStorage.getItem('connected')
+    if(connected !== 'yes'){
+      await connectAccount()
+    }
     setView(Views.DEPLOY)
   }
 
   const selectAttacher = async () => {
-    await connectAccount()
+    const connected = localStorage.getItem('connected')
+    if(connected !== 'yes'){
+      await connectAccount()
+    }
     setView(Views.ATTACH)
   }
 
   const playAgain = async () => {
+    resetScore()
     setView(Views.DEPLOYER_OR_ATTACHER)
   }
 
@@ -75,7 +82,9 @@ function App(){
     deployer.setWagerAndDeadline(reach.parseCurrency(wager), deadline)
     backend.Alice(ctc, deployer)
     setCanConnect(false)
-    return JSON.stringify(await ctc.getInfo(), null, 2);
+    const ctcInfo = await ctc.getInfo();
+    console.log(ctcInfo)
+    return ctcInfo;
   }
 
   const utils = { connectAccount, selectDeployer, selectAttacher, playAgain,attach, deploy }

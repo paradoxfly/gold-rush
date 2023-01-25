@@ -15,15 +15,6 @@
   color: black;
 }
 
-.div textarea {
-  border-radius: 0.4em;
-  height: 5em;
-  width: 20em;
-  text-align: center;
-  color: black;
-  padding: 3em;
-}
-
 .div button {
   border-radius: 2em;
   margin: 0.5em;
@@ -59,4 +50,26 @@
 
 .error-box{
   border: 2px red solid;
+}
+
+.contract{
+  width: 180px;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid gray;
+  border-radius: 8px;
+  color: black;
+  background-color: antiquewhite;
+}
+
+.paste-contract-info{
+  height: 20px;
+  width: 200px;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid gray;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 }

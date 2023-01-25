@@ -12,26 +12,21 @@ import game from '../../../utils/game'
 import StageOne from '../../../Stages/StageOne';
 import StageTwo from '../../../Stages/StageTwo';
 import StageThree from '../../../Stages/StageThree';
-import { useRecoilState } from "recoil";
-import { lava, rectangle } from '../../../recoil/state';
 import { RectActions } from '../../../recoil/action/rectangle.action';
 import { TimeActions } from '../../../recoil/action/time.action';
 import { ScoreActions } from '../../../recoil/action/scores.action';
-import { LavaActions } from '../../../recoil/action';
+import { useRef } from 'react';
 
 export default function Attach(props){
-  const rectActions = RectActions()
+  const canvasRef = useRef(null)
+  const rectActions = RectActions({ canvasRef })
   const timeActions = TimeActions()
   const scoreActions = ScoreActions()
-  const lavaActions = LavaActions()
   const dispatch = {
     ...rectActions,
     ...timeActions,
     ...scoreActions,
-    lavaActions
   }
-  const [ rect ] = useRecoilState(rectangle)
-  const [ lavaState ] = useRecoilState(lava)
 
   const { utils, reach, standardUnit } = props
   const [view, setView] = useState(Views.ATTACH)
@@ -83,16 +78,16 @@ export default function Attach(props){
         <>
           <h4>Please paste the contract info to attach to:</h4>
           <textarea spellCheck="false"
-            className='ContractInfo'
+            className='paste-contract-info'
             onChange={(e) => setCtcInfoStr(e.currentTarget.value)}
-            placeholder='{}'
           />
           <br />
           <button
             disabled={!ctcInfoStr}
             onClick={
               () => {
-                utils.attach(ctcInfoStr, Bob)
+                const hexString = parseInt(ctcInfoStr).toString(16)
+                utils.attach(`{"type":"BigNumber", "hex": "0x0${hexString}"}`, Bob)
                 setCtcInfoStr(false)
               }}
           >Attach</button>
@@ -121,7 +116,7 @@ export default function Attach(props){
         view === Views.PLAY_TURN ?
         <>
           <ScoreBoard round={round}/>
-          <Canvas rectangle={rect} lava={lavaState}/>
+          <Canvas canvasRef={canvasRef}/>
 
           <button 
             disabled = {!play}
