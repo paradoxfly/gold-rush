@@ -6,6 +6,7 @@ import { score } from "../state"
 export const ScoreActions = () => {
     const [ _, setScore] = useRecoilState(score)
 
+    console.log(_)
     /**
      * 
      * @param {String} who Can only be 'you' or 'them'

@@ -6,6 +6,8 @@ import { time } from "../state"
 export const TimeActions = () => {
     const [ _, _setTime ] = useRecoilState(time)
 
+    console.log(_)
+
     const incrementTime = useCallback(() => {
         _setTime(_time => ({
             time: _time.time + 1
